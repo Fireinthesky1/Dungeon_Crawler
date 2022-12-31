@@ -1,0 +1,24 @@
+﻿  Application.cpp
+C:\Users\James\source\repos\DUNGEON\Game.h(1139,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\James\source\repos\DUNGEON\Application.cpp(52,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Bat.cpp
+  Bugbear.cpp
+  Cultist.cpp
+  Entity.cpp
+  Fighter.cpp
+  Goblin.cpp
+  Menu.cpp
+  Mimic.cpp
+  Monster.cpp
+  Mummy.cpp
+  Orc.cpp
+  Player.cpp
+  Priest.cpp
+  PurpleWorm.cpp
+  Rat.cpp
+  Skeleton.cpp
+  Spider.cpp
+  Wizard.cpp
+  Zombie.cpp
+  Generating Code...
+  TextBasedDungeonCrawler(7-14-2022).vcxproj -> C:\Users\James\source\repos\DUNGEON\x64\Debug\DUNGEON.exe

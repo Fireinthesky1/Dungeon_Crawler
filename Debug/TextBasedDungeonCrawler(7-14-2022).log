@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (TextBasedDungeonCrawler(7-14-2022).vcxproj).  This can lead to incorrect clean and rebuild behavior.
+Menu.obj : error LNK2005: "void __cdecl clearInputBuffer(void)" (?clearInputBuffer@@YAXXZ) already defined in Application.obj
+Menu.obj : error LNK2005: "void __cdecl clearScreen(void *)" (?clearScreen@@YAXPAX@Z) already defined in Application.obj
+Menu.obj : error LNK2005: "int __cdecl getUserInputInt(int,int)" (?getUserInputInt@@YAHHH@Z) already defined in Application.obj
+C:\Users\James\source\repos\DUNGEON\Debug\DUNGEON.exe : fatal error LNK1169: one or more multiply defined symbols found

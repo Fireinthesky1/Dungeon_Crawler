@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Entity Hierarchy">
+      <UniqueIdentifier>{c2299626-4cd7-4e4f-8638-855ecf0e684e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity Hierarchy\Player children">
+      <UniqueIdentifier>{eb24653e-a5da-43c9-a3e4-02463cdc8d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity Hierarchy\Monster children">
+      <UniqueIdentifier>{d7d689c3-4e12-4e9f-866d-3f7f391873b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player Classes">
+      <UniqueIdentifier>{de2e16e1-5d82-4f3b-b618-b7d9e52270cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Monster Classes">
+      <UniqueIdentifier>{6b4f0b15-afff-4cf8-be3a-b7e6c5f5ff60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{721492c4-0ef2-4cbd-83d0-7c7cf7634373}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Player Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Wizard.cpp">
+      <Filter>Source Files\Player Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Fighter.cpp">
+      <Filter>Source Files\Player Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Spider.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Orc.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Bugbear.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Cultist.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mummy.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mimic.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleWorm.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Priest.cpp">
+      <Filter>Source Files\Player Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rat.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Entity Hierarchy\Player children</Filter>
+    </ClInclude>
+    <ClInclude Include="Fighter.h">
+      <Filter>Header Files\Entity Hierarchy\Player children</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wizard.h">
+      <Filter>Header Files\Entity Hierarchy\Player children</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Spider.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Orc.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Bugbear.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Cultist.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Mummy.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Rat.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Mimic.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleWorm.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
+    </ClInclude>
+    <ClInclude Include="Priest.h">
+      <Filter>Header Files\Entity Hierarchy\Player children</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
