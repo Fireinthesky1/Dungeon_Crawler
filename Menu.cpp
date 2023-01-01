@@ -1,5 +1,6 @@
 #include "Menu.h"
 
+//TODO create a symbols menu that displays all symbols used in the game and shows the user what they represent in the game
 
 
 //constructor
@@ -10,7 +11,7 @@ Menu::Menu()
 }
 
 
-
+//TEST
 void Menu::displayCurrentMenu(std::vector<std::string> inventory, std::string classType)
 {
 	switch (m_currentMenu)
@@ -33,11 +34,14 @@ void Menu::displayCurrentMenu(std::vector<std::string> inventory, std::string cl
 	case 6:
 		openInvestigateMenu();
 		break;
+	case 8:
+		openSymbolsMenu();
+		break;
 	}
 }
 
 
-
+//TEST
 void Menu::openMainMenu(std::string classType)
 {
 	m_currentMenu = 1;
@@ -50,6 +54,7 @@ void Menu::openMainMenu(std::string classType)
 	std::string line7 = "";
 	if (classType == "PRIEST ")
 		line7 = "|7:HEAL                       |";
+	std::string line8 = "|8:OPEN_SYMBOL_MENU           |";
 
 	std::cout << line1 << std::endl;
 	std::cout << line2 << std::endl;
@@ -57,7 +62,11 @@ void Menu::openMainMenu(std::string classType)
 	std::cout << line4 << std::endl;
 	std::cout << line5 << std::endl;
 	std::cout << line6 << std::endl;
-	std::cout << line7 << std::endl;
+	if (classType == "PRIEST ")
+		std::cout << line7 << std::endl;
+	else
+		std::cout << line7;
+	std::cout << line8 << std::endl;
 	std::cout << '\n';
 }
 
@@ -185,9 +194,10 @@ void Menu::openInvestigateMenu()
 
 
 
+//UNDER MAINTENANCE (attempting to add in symbols menu)
 int Menu::mainMenuSolution(std::vector<std::string> &inventory, bool isOnValidChest, std::string classType)
 {
-	int input = getUserInputInt(1, 7);
+	int input = getUserInputInt(1, 8);
 
 	switch (input)
 	{
@@ -227,8 +237,66 @@ int Menu::mainMenuSolution(std::vector<std::string> &inventory, bool isOnValidCh
 			return 24;
 		}
 		break;
+	case 8:
+		//open Symbols menu
+		openSymbolsMenu();
+		return symbolsMenuSolution(classType);
+		break;
 	default:
 		//Jump back to main
+		openMainMenu(classType);
+		return 24;
+		break;
+	}
+}
+
+
+
+//TEST
+void Menu::openSymbolsMenu()
+{
+	m_currentMenu = 8;
+	std::string line1 = "|*:DOOR                       |";
+	std::string line2 = "|$:CHEST of MIMIC             |";
+	std::string line3 = "|/:STAIRCASE                  |";
+	std::string line4 = "|T:TRAP                       |";
+	std::string line5 = "|B:BAT or BUGBEAR             |";
+	std::string line6 = "|C:CULTIST                    |";
+	std::string line7 = "|G:GOBLIN                     |";
+	std::string line8 = "|M:MUMMY                      |";
+	std::string line9 = "|O:ORC                        |";
+	std::string line10 = "|P:PURPLEWORM                 |";
+	std::string line11 = "|R:RAT                        |";
+	std::string line12 = "|S:SKELETON of SPIDER         |";
+	std::string line13 = "|Z:ZOMBIE                     |";
+	std::string line14 = "|PRESS ANY NUMBER TO EXIT MENU|";
+
+	std::cout << line1 << std::endl;
+	std::cout << line2 << std::endl;
+	std::cout << line3 << std::endl;
+	std::cout << line4 << std::endl;
+	std::cout << line5 << std::endl;
+	std::cout << line6 << std::endl;
+	std::cout << line7 << std::endl;
+	std::cout << line8 << std::endl;
+	std::cout << line9 << std::endl;
+	std::cout << line10 << std::endl;
+	std::cout << line11 << std::endl;
+	std::cout << line12 << std::endl;
+	std::cout << line13 << std::endl;
+	std::cout << line14 << std::endl;
+}
+
+
+
+//TEST
+int Menu::symbolsMenuSolution(std::string classType)
+{
+	clearInputBuffer();
+	int input = getUserInputInt(0, 9);
+	switch (input)
+	{
+	default:
 		openMainMenu(classType);
 		return 24;
 		break;

@@ -10,6 +10,9 @@
 * 
 *	-Need a way for monster actions to be displayed to user
 * 
+*	-Reduce the amount of monsters spawning
+*	-Get rendering order properly worked out
+* 
 *	-Get turns happening
 *	-Implement AI
 *		-just added monsterType which will help navigate behaviors in the ai function
@@ -27,7 +30,6 @@
 
 //IDEAS
 /*
-*	-maybe have some way to get bonuses to hit from leveling up and or better weapons
 *	-Try to introduce rarity to the items you fin in chests (hand and eye and black heart and vorpal being
 *	 extremely rare)
 *	

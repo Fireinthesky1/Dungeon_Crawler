@@ -91,6 +91,7 @@ public:
 	void openInteractMenu();
 	void openInventoryMenu(std::vector<std::string> &inventory);
 	void openInventoryMenuSubMenu();
+	void openSymbolsMenu();
 
 
 
@@ -108,6 +109,7 @@ public:
 	int chestMenuSolution(std::vector<std::string> &inventory, std::string classType);
 	int inventorySubMenuSolution();
 	int navigateMenus(std::vector<std::string> &inventory, bool isOnValidChest, std::string classType);
+	int symbolsMenuSolution(std::string classType);
 
 
 
