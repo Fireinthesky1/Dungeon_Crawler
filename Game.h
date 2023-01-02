@@ -440,7 +440,7 @@ public:
 
 
 
-	//TEST AND BEWARE
+	//TEST (added additional mark room call so player will be rendered last)
 	void checkForSlainMonsters()
 	{
 		for (int i = 0; i < m_monsters.size(); i++)
@@ -451,9 +451,17 @@ public:
 				(*player).m_xp += m_monsters[i].m_xpValue;
 				m_board.markRoom(m_monsters[i].m_yCoord, m_monsters[i].m_xCoord,' ',m_board.m_currentRoom);
 				m_monsters.erase(m_monsters.begin()+i);
-				m_board.refreshBoard();
 			}
 		}
+		//TEST CODE
+		m_board.refreshBoard();
+		//refresh monsters
+		for (Monster m : m_monsters)
+		{
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
+		}
+		//refresh player
+		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
 	}
 
 
@@ -848,6 +856,12 @@ public:
 	{
 		m_board.m_trapsChecked = true;
 		m_board.refreshBoard();
+		//TEST CODE
+		//refresh monsters
+		for (Monster m : m_monsters)
+		{
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
+		}
 		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
 	}
 

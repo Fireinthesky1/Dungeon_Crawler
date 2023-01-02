@@ -8,9 +8,10 @@
 *	
 *	-Get current build stable then work on a.i. 
 * 
-*	-Need a way for monster actions to be displayed to user
+*	-Need a way for monster actions to be displayed to user (line 331)
 * 
 *	-Reduce the amount of monsters spawning
+* 
 *	-Get rendering order properly worked out
 * 
 *	-Get turns happening
@@ -32,11 +33,12 @@
 /*
 *	-Try to introduce rarity to the items you find in chests (hand and eye and black heart and vorpal being
 *	 extremely rare)
-*	
 */
 
 //BUGS
 /*
+*	-open door (door on side of room) and went down a ladder, ended up in the center of the next room (1/1/23)
+*	
 *	-Monsters get down to zero hitpoints and don't go away
 *	
 *	-infinite chest loop on fighter room 1.
@@ -45,6 +47,7 @@
 * 
 *	-Vector subScript out of range when using wizard attack after play again and switching TO wizard
 *	-When a chest is on a trap and you grab the chest the trap is now hidden
+* 
 */
 
 
