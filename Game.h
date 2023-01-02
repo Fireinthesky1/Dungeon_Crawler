@@ -441,6 +441,7 @@ public:
 
 
 	//TEST (added additional mark room call so player will be rendered last)
+	//When using the hand of vecna a monster was reduced to 0 hp and didn't go away till the next action
 	void checkForSlainMonsters()
 	{
 		for (int i = 0; i < m_monsters.size(); i++)
@@ -720,7 +721,7 @@ public:
 		bool isVerticalCorridor = m_board.getCurrentRoomColumns() == 1;
 
 		//Check if stairCase
-		if (m_board.m_isBossRoom && playerLocation[0] == 10 && playerLocation[0] == 10)
+		if (m_board.m_isBossRoom && playerLocation[0] == 10 && playerLocation[1] == 10)
 		{
 			//Generate a new Starting Room
 			m_board.initializeNewRoom(rand() % 4 + 1);

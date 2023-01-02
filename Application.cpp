@@ -5,7 +5,6 @@
 
 //TO DO BY PRIORITY
 /*
-*	
 *	-Get current build stable then work on a.i. 
 * 
 *	-Need a way for monster actions to be displayed to user (line 331)
@@ -20,7 +19,6 @@
 *	-Implement Collision detection for entities
 * 
 *	-Implement dialogue
-*	-Need to implement attacks
 *	-Need to implement NPC's
 *	-Need to implement dialogue system
 * 
@@ -33,11 +31,12 @@
 /*
 *	-Try to introduce rarity to the items you find in chests (hand and eye and black heart and vorpal being
 *	 extremely rare)
+*	-Need to remove artifacts from list of chest items after they've been found
 */
 
 //BUGS
 /*
-*	-open door (door on side of room) and went down a ladder, ended up in the center of the next room (1/1/23)
+*	-Used hand of vecna. Reduced monster to zero hp. Monster didn't come off battlefield till next action was taken (1/2/23)
 *	
 *	-Monsters get down to zero hitpoints and don't go away
 *	
@@ -46,8 +45,8 @@
 *	-Upon second play monsters didn't initially show up in room
 * 
 *	-Vector subScript out of range when using wizard attack after play again and switching TO wizard
-*	-When a chest is on a trap and you grab the chest the trap is now hidden
 * 
+*	-When a chest is on a trap and you grab the chest the trap is now hidden
 */
 
 
