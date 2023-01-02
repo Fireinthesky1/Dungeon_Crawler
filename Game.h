@@ -189,7 +189,6 @@ public:
 	
 
 
-	//Need to implement monster subclasses
 	Monster computerInitializeCharacter()
 	{
 		//randomly determine monster type
@@ -482,6 +481,7 @@ public:
 
 	//This calls Menu::navigateMenus and decides behavior based on the return value of that function
 	//WHEN TURNS START HAPPENING NEED TO DELETE UNNECESSARY PLAYERDETERMINEMOVE RECURSIVE CALLS
+	//POTENTIALLY REPLACE THESE CALLS WITH AN INCREMENT OF TURN
 	void playerDetermineMove()
 	{
 		m_menu.m_currentMenu = 1;
@@ -848,6 +848,7 @@ public:
 	{
 		m_board.m_trapsChecked = true;
 		m_board.refreshBoard();
+		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
 	}
 
 

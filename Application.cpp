@@ -6,7 +6,7 @@
 //TO DO BY PRIORITY
 /*
 *	
-*	-Get current build stable then work on a.i.
+*	-Get current build stable then work on a.i. 
 * 
 *	-Need a way for monster actions to be displayed to user
 * 
@@ -30,7 +30,7 @@
 
 //IDEAS
 /*
-*	-Try to introduce rarity to the items you fin in chests (hand and eye and black heart and vorpal being
+*	-Try to introduce rarity to the items you find in chests (hand and eye and black heart and vorpal being
 *	 extremely rare)
 *	
 */

@@ -41,7 +41,7 @@ void Menu::displayCurrentMenu(std::vector<std::string> inventory, std::string cl
 }
 
 
-//TEST
+
 void Menu::openMainMenu(std::string classType)
 {
 	m_currentMenu = 1;
@@ -194,7 +194,7 @@ void Menu::openInvestigateMenu()
 
 
 
-//UNDER MAINTENANCE (attempting to add in symbols menu)
+
 int Menu::mainMenuSolution(std::vector<std::string> &inventory, bool isOnValidChest, std::string classType)
 {
 	int input = getUserInputInt(1, 8);
@@ -252,12 +252,11 @@ int Menu::mainMenuSolution(std::vector<std::string> &inventory, bool isOnValidCh
 
 
 
-//TEST
 void Menu::openSymbolsMenu()
 {
 	m_currentMenu = 8;
 	std::string line1 = "|*:DOOR                       |";
-	std::string line2 = "|$:CHEST of MIMIC             |";
+	std::string line2 = "|$:CHEST or MIMIC             |";
 	std::string line3 = "|/:STAIRCASE                  |";
 	std::string line4 = "|T:TRAP                       |";
 	std::string line5 = "|B:BAT or BUGBEAR             |";
@@ -267,7 +266,7 @@ void Menu::openSymbolsMenu()
 	std::string line9 = "|O:ORC                        |";
 	std::string line10 = "|P:PURPLEWORM                 |";
 	std::string line11 = "|R:RAT                        |";
-	std::string line12 = "|S:SKELETON of SPIDER         |";
+	std::string line12 = "|S:SKELETON or SPIDER         |";
 	std::string line13 = "|Z:ZOMBIE                     |";
 	std::string line14 = "|PRESS ANY NUMBER TO EXIT MENU|";
 
@@ -289,7 +288,6 @@ void Menu::openSymbolsMenu()
 
 
 
-//TEST
 int Menu::symbolsMenuSolution(std::string classType)
 {
 	clearInputBuffer();

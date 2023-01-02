@@ -1,7 +1,4 @@
 ﻿  Application.cpp
-C:\Users\James\source\repos\DUNGEON\Game.h(1139,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\James\source\repos\DUNGEON\Application.cpp(54,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Menu.cpp
-C:\Users\James\source\repos\DUNGEON\Menu.cpp(303,2): warning C4065: switch statement contains 'default' but no 'case' labels
-  Generating Code...
+C:\Users\James\source\repos\DUNGEON\Game.h(1140,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\James\source\repos\DUNGEON\Application.cpp(55,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   TextBasedDungeonCrawler(7-14-2022).vcxproj -> C:\Users\James\source\repos\DUNGEON\x64\Debug\DUNGEON.exe
