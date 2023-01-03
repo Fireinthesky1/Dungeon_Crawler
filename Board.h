@@ -452,7 +452,7 @@ private:
 		//Randomly Determine Location of Treasure
 		treasureY1 = rand() % height;
 		treasureX1 = rand() % width;
-
+		
 		treasureY2 = rand() % height;
 		treasureX2 = rand() % width;
 

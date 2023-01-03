@@ -619,7 +619,7 @@ public:
 		int treasure1X = m_board.getTreasureLocations()[1];
 
 		//If you're not on the first treasure you must be on the second treasure
-		if (playerX == treasure1X && playerY == treasure1Y)
+		if (m_board.m_firstTreasureTaken == false && playerX == treasure1X && playerY == treasure1Y)
 			m_board.m_firstTreasureTaken = true;
 		else
 			m_board.m_secondTreasureTaken = true;
@@ -1134,6 +1134,7 @@ public:
 		int secondTreasureY = m_board.getTreasureLocations()[2];
 		int secondTreasureX = m_board.getTreasureLocations()[3];
 
+		//need to account for two chests on top of eachother
 		if (playerY == firstTreasureY && playerX == firstTreasureX && !m_board.m_firstTreasureTaken)
 			return true;
 		else if (!m_board.m_isCorridor && playerY == secondTreasureY && playerX == secondTreasureX && !m_board.m_secondTreasureTaken)

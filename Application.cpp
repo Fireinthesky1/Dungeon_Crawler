@@ -39,8 +39,6 @@
 *	-Used hand of vecna. Reduced monster to zero hp. Monster didn't come off battlefield till next action was taken (1/2/23)
 *	
 *	-Monsters get down to zero hitpoints and don't go away
-*	
-*	-infinite chest loop on fighter room 1. (1/2/23)
 * 
 *	-Upon second play monsters didn't initially show up in room
 * 
