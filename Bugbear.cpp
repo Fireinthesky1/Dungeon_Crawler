@@ -3,8 +3,7 @@
 
 Bugbear::Bugbear()
 {
-	m_armorClass = 15;
-	m_baseDifficulty = 10;
+	m_armorClass = 12;
 	m_maxHealth = 35;
 	m_currentHealth = m_maxHealth;
 	m_range = true;
@@ -12,6 +11,6 @@ Bugbear::Bugbear()
 	m_doDamageMax = 24;
 	m_name = "Bugbear";
 	m_type = "Bugbear";
-	m_xpValue = 500;
+	m_xpValue = 350;
 	m_monsterType = 6;
 }

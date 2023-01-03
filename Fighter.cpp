@@ -25,7 +25,7 @@ void Fighter::displayStats()
 
 void Fighter::levelUp()
 {
-	if (m_xp > 10000 && m_level == 9)
+	if (m_xp >= 9999 && m_level == 9)
 	{
 		//level 10
 		m_level++;

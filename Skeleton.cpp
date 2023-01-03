@@ -4,7 +4,6 @@
 Skeleton::Skeleton()
 {
 	m_armorClass = 12;
-	m_baseDifficulty = 8;
 	m_maxHealth = 15;
 	m_currentHealth = m_maxHealth;
 	m_range = true;
@@ -12,6 +11,6 @@ Skeleton::Skeleton()
 	m_doDamageMax = 6;
 	m_name = "Skelli ";
 	m_type = "Skelli ";
-	m_xpValue = 200;
+	m_xpValue = 150;
 	m_monsterType = 1;
 }

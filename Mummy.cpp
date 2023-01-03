@@ -6,8 +6,7 @@
 
 Mummy::Mummy()
 {
-	m_armorClass = 17;
-	m_baseDifficulty = 5;
+	m_armorClass = 12;
 	m_maxHealth = 99;
 	m_currentHealth = m_maxHealth;
 	m_range = false;

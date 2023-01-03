@@ -145,9 +145,10 @@ inline int generateRandomNumber(int leftBound, int rightBound)
 
 
 
-inline bool successfulAction(int difficulty)
+inline bool successfulAction(int bonus, int difficulty)
 {
 	int roll = rand() % 21;
+	roll += bonus;
 	if (roll >= difficulty)
 		return true;
 	else

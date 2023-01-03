@@ -8,7 +8,6 @@ class Monster : public Entity
 {
 public:
 	std::string m_type;
-	int m_baseDifficulty;
 	int m_xpValue;
 	int m_monsterType;
 
@@ -17,7 +16,7 @@ public:
 	//constructor
 	Monster();
 
-	Monster(std::string type, int maxHealth, int yCoord, int xCoord, int baseDifficulty, int doDamageMax, int doDamageMin, int direction, bool range, int armorClass);
+	Monster(std::string type, int maxHealth, int yCoord, int xCoord, int doDamageMax, int doDamageMin, int direction, bool range, int armorClass);
 
 
 

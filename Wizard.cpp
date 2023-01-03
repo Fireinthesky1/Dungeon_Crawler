@@ -25,7 +25,7 @@ void Wizard::displayStats()
 
 void Wizard::levelUp()
 {
-	if (m_xp > 10000 && m_level == 9)
+	if (m_xp >= 9999 && m_level == 9)
 	{
 		//level 10
 		m_level++;
@@ -39,7 +39,7 @@ void Wizard::levelUp()
 		m_maxHealth += 4;
 		m_currentHealth = m_maxHealth;
 	}
-	else if (m_xp > 75000 && m_level == 7)
+	else if (m_xp > 7500 && m_level == 7)
 	{
 		//level 8
 		m_level++;

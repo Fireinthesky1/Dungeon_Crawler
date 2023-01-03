@@ -11,8 +11,6 @@
 * 
 *	-Reduce the amount of monsters spawning
 * 
-*	-Get rendering order properly worked out
-* 
 *	-Get turns happening
 *	-Implement AI
 *		-just added monsterType which will help navigate behaviors in the ai function
@@ -39,10 +37,6 @@
 *	-Used hand of vecna. Reduced monster to zero hp. Monster didn't come off battlefield till next action was taken (1/2/23)
 *	
 *	-Monsters get down to zero hitpoints and don't go away
-* 
-*	-Upon second play monsters didn't initially show up in room
-* 
-*	-Vector subScript out of range when using wizard attack after play again and switching TO wizard
 * 
 *	-When a chest is on a trap and you grab the chest the trap is now hidden
 */

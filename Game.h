@@ -131,7 +131,7 @@ public:
 		m_monsters.clear();
 
 		//choose a random number of monsters for the room
-		int numMonsters = generateRandomNumber(m_board.getCurrentDungeonLevel(), 3 + m_board.getCurrentDungeonLevel());
+		int numMonsters = generateRandomNumber(1, 5);
 
 		//Fill the monster array
 		for (int i = 0; i < numMonsters; i++)
@@ -239,8 +239,7 @@ public:
 			break;
 		}
 
-		//set health appropriately by dungeon level
-		m.m_maxHealth *= m_board.getCurrentDungeonLevel();
+		//set health appropriately to max
 		m.m_currentHealth = m.m_maxHealth;
 
 		//set damage appropriatley by dungeon level
@@ -440,7 +439,6 @@ public:
 
 
 
-	//TEST (added additional mark room call so player will be rendered last)
 	//When using the hand of vecna a monster was reduced to 0 hp and didn't go away till the next action
 	void checkForSlainMonsters()
 	{
@@ -1124,7 +1122,6 @@ public:
 
 
 
-
 	bool isOnValidChest()
 	{
 		int playerY = (*player).getLocation()[0];
@@ -1153,7 +1150,6 @@ public:
 
 
 
-	//IMPLEMENT
 	void resolveInvestigate()
 	{
 		clearScreen(ScreenBuffer);

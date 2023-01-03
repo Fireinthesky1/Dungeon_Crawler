@@ -23,7 +23,7 @@ public:
 		"POTION_OF_EXPERIENCE       ",
 		"POTION_OF_STRENGTH         ",
 		//Swords
-		"WOODEN_SWORD               ",
+		//"WOODEN_SWORD               ",
 		"STEEL_SWORD                ",
 		"VORPAL_SWORD               ",
 		//Armor

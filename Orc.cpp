@@ -3,8 +3,7 @@
 
 Orc::Orc()
 {
-	m_armorClass = 16;
-	m_baseDifficulty = 10;
+	m_armorClass = 12;
 	m_maxHealth = 20;
 	m_currentHealth = m_maxHealth;
 	m_range = false;
@@ -12,6 +11,6 @@ Orc::Orc()
 	m_doDamageMax = 18;
 	m_name = "Orc    ";
 	m_type = "Orc    ";
-	m_xpValue = 250;
+	m_xpValue = 200;
 	m_monsterType = 5;
 }

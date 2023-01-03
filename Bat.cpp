@@ -5,7 +5,6 @@
 Bat::Bat()
 {
 	m_armorClass = 5;
-	m_baseDifficulty = 5;
 	m_maxHealth = 10;
 	m_currentHealth = m_maxHealth;
 	m_range = false;

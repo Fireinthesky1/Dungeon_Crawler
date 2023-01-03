@@ -145,7 +145,7 @@ std::vector<int> Entity::attack(Board board, int armorClass, bool range)
 		//Consist of 3 tiers of damage to be taken by ALL enemies
 		//It is randomly determined who takes max damage, half damage
 		//and min damage
-		if (successfulAction(armorClass))
+		if (successfulAction(0,armorClass))
 		{
 			attackSolution[0] = m_doDamageMax;
 			attackSolution[1] = m_doDamageMax / 2;
@@ -155,7 +155,7 @@ std::vector<int> Entity::attack(Board board, int armorClass, bool range)
 	}
 	attackSolution[0] = newIncrement(board)[0];
 	attackSolution[1] = newIncrement(board)[1];
-	if (successfulAction(armorClass))
+	if (successfulAction(0,armorClass))
 	{
 		//Random amount of damage
 		attackSolution[2] = rand() % (m_doDamageMax - m_doDamageMin + 1);

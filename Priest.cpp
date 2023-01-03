@@ -52,11 +52,11 @@ void Priest::heal()
 
 void Priest::levelUp()
 {
-	if (m_xp > 10000 && m_level == 9)
+	if (m_xp >= 9999 && m_level == 9)
 	{
 		//level 10
 		m_level++;
-		m_healSpellsRemaining = 25;
+		m_healSpellsRemaining = 10;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -64,7 +64,7 @@ void Priest::levelUp()
 	{
 		//level 9
 		m_level++;
-		m_healSpellsRemaining = 15;
+		m_healSpellsRemaining = 9;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -72,7 +72,7 @@ void Priest::levelUp()
 	{
 		//level 8
 		m_level++;
-		m_healSpellsRemaining = 12;
+		m_healSpellsRemaining = 8;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -80,7 +80,7 @@ void Priest::levelUp()
 	{
 		//level 7
 		m_level++;
-		m_healSpellsRemaining = 9;
+		m_healSpellsRemaining = 7;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -88,7 +88,7 @@ void Priest::levelUp()
 	{
 		//level 6
 		m_level++;
-		m_healSpellsRemaining = 8;
+		m_healSpellsRemaining = 6;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -96,7 +96,7 @@ void Priest::levelUp()
 	{
 		//level 5
 		m_level++;
-		m_healSpellsRemaining = 7;
+		m_healSpellsRemaining = 5;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -104,7 +104,7 @@ void Priest::levelUp()
 	{
 		//level 4
 		m_level++;
-		m_healSpellsRemaining = 6;
+		m_healSpellsRemaining = 4;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -112,7 +112,7 @@ void Priest::levelUp()
 	{
 		//level 3
 		m_level++;
-		m_healSpellsRemaining = 5;
+		m_healSpellsRemaining = 3;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}
@@ -120,7 +120,7 @@ void Priest::levelUp()
 	{
 		//level 2
 		m_level++;
-		m_healSpellsRemaining = 4;
+		m_healSpellsRemaining = 2;
 		m_maxHealth += 8;
 		m_currentHealth = m_maxHealth;
 	}

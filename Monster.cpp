@@ -3,20 +3,19 @@
 
 
 Monster::Monster()
-	: m_baseDifficulty(10), m_type("MONSTER"), m_xpValue(100), m_monsterType(0)
+	: m_type("MONSTER"), m_xpValue(100), m_monsterType(0)
 {
 	m_name = "MONSTER";
 }
 
 
 
-Monster::Monster(std::string type, int maxHealth, int yCoord, int xCoord, int baseDifficulty, int doDamageMax, int doDamageMin, int direction, bool range, int armorClass)
+Monster::Monster(std::string type, int maxHealth, int yCoord, int xCoord, int doDamageMax, int doDamageMin, int direction, bool range, int armorClass)
 {
 	m_type = type;
 	m_maxHealth = maxHealth;
 	m_yCoord = yCoord;
 	m_xCoord = xCoord;
-	m_baseDifficulty = baseDifficulty;
 	m_doDamageMax = doDamageMax;
 	m_doDamageMin = doDamageMin;
 	m_direction = direction;
@@ -33,7 +32,7 @@ std::vector<int> Monster::attack(Board board, int armorClass, bool range)
 	{
 		//When it's ranged attack the player will either recieve
 		//full damage, half damage, or min damage
-		if (successfulAction(armorClass))
+		if (successfulAction(5,armorClass))
 		{
 			attackSolution[0] = m_doDamageMax;
 			attackSolution[1] = m_doDamageMax / 2;
@@ -46,7 +45,7 @@ std::vector<int> Monster::attack(Board board, int armorClass, bool range)
 	attackSolution[0] = newIncrement(board)[0]; //yCoord of attack square
 	attackSolution[1] = newIncrement(board)[1];	//xCoord of attack square
 
-	if (successfulAction(armorClass))
+	if (successfulAction(5,armorClass))
 	{
 		//random amount of damage
 		attackSolution[2] = rand() % (m_doDamageMax = m_doDamageMin + 1);
