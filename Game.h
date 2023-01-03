@@ -936,8 +936,12 @@ public:
 				//Update the armor and armorclass
 				updateArmor(chestArmor);
 			}
-
 			//Drop the item
+			dropInventorySlot(armorIndex);
+		}
+		else if ((*player).m_class.at(0) == 'W' && armorIndex != -1)
+		{
+			//drop the item because wizards can wear armor
 			dropInventorySlot(armorIndex);
 		}
 		
@@ -994,7 +998,7 @@ public:
 	}
 
 
-	//TEST NOT CONVINVED THIS WORKS
+
 	void updateWeapon(char weapon)
 	{
 		

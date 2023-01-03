@@ -40,7 +40,7 @@
 *	
 *	-Monsters get down to zero hitpoints and don't go away
 *	
-*	-infinite chest loop on fighter room 1.
+*	-infinite chest loop on fighter room 1. (1/2/23)
 * 
 *	-Upon second play monsters didn't initially show up in room
 * 
