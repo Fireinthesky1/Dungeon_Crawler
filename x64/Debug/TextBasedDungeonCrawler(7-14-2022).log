@@ -1,5 +1,8 @@
-﻿  Fighter.cpp
-  Priest.cpp
-  Wizard.cpp
+﻿  Application.cpp
+C:\Users\James\source\repos\DUNGEON\Game.h(1012,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\James\source\repos\DUNGEON\Application.cpp(45,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Fighter.cpp
+  Menu.cpp
+C:\Users\James\source\repos\DUNGEON\Menu.cpp(298,2): warning C4065: switch statement contains 'default' but no 'case' labels
   Generating Code...
   TextBasedDungeonCrawler(7-14-2022).vcxproj -> C:\Users\James\source\repos\DUNGEON\x64\Debug\DUNGEON.exe

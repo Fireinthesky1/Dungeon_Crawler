@@ -1,7 +1,5 @@
 #include "Menu.h"
 
-//TODO create a symbols menu that displays all symbols used in the game and shows the user what they represent in the game
-
 
 //constructor
 Menu::Menu()
@@ -11,7 +9,7 @@ Menu::Menu()
 }
 
 
-//TEST
+
 void Menu::displayCurrentMenu(std::vector<std::string> inventory, std::string classType)
 {
 	switch (m_currentMenu)
@@ -191,7 +189,6 @@ void Menu::openInvestigateMenu()
 	std::string line1 = "|1:" + m_investigateContents[rand() % m_investigateContents.size()] + "|";
 	std::cout << line1 << std::endl;
 }
-
 
 
 

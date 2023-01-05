@@ -3,7 +3,7 @@
 
 //STATUS
 /*
-	-NEED TO CLEAN THIS FILE UP
+*	-Need to implement AI
 */
 #pragma once
 #include <vector>
@@ -56,6 +56,7 @@ public:
 
 	
 
+	//constructor
 	Game()
 	{
 		//Start the game loop
@@ -64,129 +65,143 @@ public:
 
 
 
-	//Initialization
-	void initializeGame()
+	//When using the hand of vecna a monster was reduced to 0 hp and didn't go away till the next action
+	void checkForSlainMonsters()
 	{
-		//Clear the screen
-		clearScreen(ScreenBuffer);
-		//Reset game over
-		m_gameOver = false;
-		//Bring vecna back
-		m_vecnaIsDead = false;
-		//Set dungeon Level to 1
-		m_board.setCurrentDungeoneLevel(1);
-		//reset chance to generateBossRoom
-		m_board.setChanceToGenerateBossRoom(0);
-		//Set turn to 1
-		m_turn = 1;
-		//Initialize new Room
-		if (m_notFirstPlaythrough)
-			m_board.initializeNewRoom(rand() % 4 + 1);
-		//Initialize the characters
-		playerInitializeCharacter();
-	}
-
-
-
-	void playerInitializeCharacter()
-	{
-		clearScreen(ScreenBuffer);
-		m_menu.openClassSelectionMenu();
-		int input = getUserInputInt(1,3);
-
-		clearScreen(ScreenBuffer);
-		m_menu.openNameSelectionMenu();
-		std::string name = getUserInputString();
-
-		switch (input)
+		for (int i = 0; i < m_monsters.size(); i++)
 		{
-		case 1:
-			player = new Fighter();
-			(*player).m_name = name;
-			break;
-		case 2:
-			player = new Wizard();
-			(*player).m_name = name;
-			break;
-		case 3:
-			player = new Priest();
-			(*player).m_name = name;
-			break;
-		default:
-			std::cout << "ERROR PLAYER INITIALIZATION FAILED" << std::endl;
-			abort();
-			break;
+			if (m_monsters[i].m_currentHealth <= 0)
+			{
+				//give xp, remove the body, kill the monster, refresh the board
+				(*player).m_xp += m_monsters[i].m_xpValue;
+				m_board.markRoom(m_monsters[i].m_yCoord, m_monsters[i].m_xCoord,' ',m_board.m_currentRoom);
+				m_monsters.erase(m_monsters.begin()+i);
+			}
 		}
-
-		(*player).m_yCoord = m_board.getCurrentRoomRows() / 2;
-		(*player).m_xCoord = m_board.getCurrentRoomColumns() / 2;
-		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getSymbol(), m_board.m_currentRoom);
+		//TEST CODE
+		m_board.refreshBoard();
+		//refresh monsters
+		for (Monster m : m_monsters)
+		{
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
+		}
+		//refresh player
+		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
 	}
 
 
-	//TEST
-	void computerInitializeCharacters()
+
+	void checkForTraps()
 	{
-		//empty the monster vector and the positions vector
-		m_monsters.clear();
-
-		//choose a random number of monsters for the room
-		int numMonsters = generateRandomNumber(1, 5);
-
-		//Fill the monster array
-		for (int i = 0; i < numMonsters; i++)
-			m_monsters.push_back(computerInitializeCharacter());
-
-		//Place the monsters in the room
-		initializeComputerPositions();
+		m_board.m_trapsChecked = true;
+		m_board.refreshBoard();
+		//TEST CODE
+		//refresh monsters
+		for (Monster m : m_monsters)
+		{
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
+		}
+		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
 	}
 
 
-	//TEST
-	void initializeComputerPositions()
+
+	void checkGameOver()
 	{
-		
-		int playerY = (*player).m_yCoord;
-		int playerX = (*player).m_xCoord;
-		std::vector<int> playerPosition{ playerY, playerX };
-
-		std::vector<std::vector<int>> occupiedPositions{ playerPosition };
-
-
-		for (Monster &m : m_monsters)
-		{																										
-			std::vector<int> monsterPosition = randomRoomLocation();											
-																												
-			for (std::vector<int> position : occupiedPositions)													
-			{																									
-				if (monsterPosition[0] == position[0] && monsterPosition[1] == position[1])						
-				{																								
-					while (monsterPosition[0] == position[0] && monsterPosition[1] == position[1])				
-						monsterPosition = randomRoomLocation();													
-				}																								
-																												
-			}																									
-				//put the monster position into occupied positions												
-				occupiedPositions.push_back(monsterPosition);													
-																												
-				//put the monster on the board																	
-				m_board.markRoom(monsterPosition[0], monsterPosition[1], m.getSymbol(), m_board.m_currentRoom);	
-																												
-				//update the monster's locations fields															
-				m.m_yCoord = monsterPosition[0];																
-				m.m_xCoord = monsterPosition[1];																
+		if (!(*player).isAlive())
+		{
+			clearScreen(ScreenBuffer);
+			std::cout << "The dungeons of Chaos have defeated you and Vecna Lives" << "\n" << std::endl;
+			if (playAgain())
+			{
+				playGame();
+			}
+			else
+			{
+				m_gameOver = true;
+				clearScreen(ScreenBuffer);
+				std::cout << "Thanks for playing!" << std::endl;
+			}
+		}
+		else if (vecnaIsDead())
+		{
+			clearScreen(ScreenBuffer);
+			std::cout << (*player).getName() << " " << "has destroyed Vecna. Peace is restored to the multiverse!" << "\n" << std::endl;
+			if (playAgain())
+			{
+				playGame();
+			}
+			else
+			{
+				m_gameOver = true;
+				clearScreen(ScreenBuffer);
+				std::cout << "Thanks for playing!" << std::endl;
+			}
 		}
 	}
 
 
 
-	std::vector<int> randomRoomLocation()
+	void combat(Entity &attacker)
 	{
-		int Y = generateRandomNumber(0, m_board.getCurrentRoomRows());
-		int X = generateRandomNumber(0, m_board.getCurrentRoomColumns());
-		return { Y,X };
+		//determine if the attacker is a monster or a player
+		//monster
+		if (m_turn % 2 == 0)
+		{
+			std::vector<int> attackSolution = attacker.attack(m_board, (*player).m_armorClass, attacker.m_range);
+			
+			if (attacker.m_range)
+			{
+				(*player).hit(attackSolution[generateRandomNumber(1, 3)]);
+			}
+			else
+			{
+				if ((*player).getLocation()[0] == attackSolution[0] && (*player).getLocation()[1] == attackSolution[1])
+					(*player).hit(attackSolution[3]);
+			}
+			
+		}
+		//player
+		else
+		{
+			if ((*player).m_range)
+			{
+				for (Monster &m : m_monsters)
+				{
+					int damage = (*player).attack(m_board, m.m_armorClass, (*player).m_range)[generateRandomNumber(0,2)];
+					m.hit(damage);
+				}
+			}
+			else
+			{
+				for (Monster &m : m_monsters)
+				{
+					std::vector<int> attackSolution = (*player).attack(m_board, m.m_armorClass, (*player).m_range);
+					if (m.getLocation()[0] == attackSolution[0] && m.getLocation()[1] == attackSolution[1])
+					{
+						m.hit(attackSolution[2]);
+						return;
+					}
+				}
+			}
+		}
 	}
-	
+
+
+
+	void computerChangeDirection(Monster monster, int direction)
+	{
+		monster.changeDirection(direction);
+	}
+
+
+
+	//The infamous AI
+	void computerDetermineMove()
+	{
+		//We will need to plan this A.I. out based on class type
+	}
+
 
 
 	Monster computerInitializeCharacter()
@@ -252,233 +267,25 @@ public:
 	}
 
 
-	
-	void move(Entity& e)
+
+	void computerInitializeCharacters()
 	{
-		//Remove old mark
-		m_board.markRoom(e.getLocation()[0], e.getLocation()[1], ' ', m_board.m_currentRoom);
-		
-		//Refresh the Board
-		m_board.refreshBoard();
+		//empty the monster vector and the positions vector
+		m_monsters.clear();
 
-		//refresh monsters
-		for (Monster m : m_monsters)																		  
-		{																									  
-			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);					  
-		}																									  
+		//choose a random number of monsters for the room
+		int numMonsters = generateRandomNumber(1, 5);
 
-		//Move
-		e.move(m_board);
-		int ycoord = e.getLocation()[0];
-		int xcoord = e.getLocation()[1];
+		//Fill the monster array
+		for (int i = 0; i < numMonsters; i++)
+			m_monsters.push_back(computerInitializeCharacter());
 
-		//Determine if you stepped on a trap
-		resolveTraps(e);
-		
-		//Mark the room with your new location
-		m_board.markRoom(ycoord, xcoord, e.getName().at(0) , m_board.m_currentRoom);
+		//Place the monsters in the room
+		initializeComputerPositions();
 	}
 
 
 
-	void resolveTraps(Entity& e)
-	{
-		int ycoord = e.getLocation()[0];
-		int xcoord = e.getLocation()[1];
-		int damage1 = generateRandomNumber(1, 8) * m_board.getCurrentDungeonLevel();
-		int damage2 = generateRandomNumber(1, 8) * m_board.getCurrentDungeonLevel();
-		//bossroom
-		if (m_board.m_isBossRoom)
-		{
-			if (ycoord == m_board.getTrapLocations()[0] && xcoord == m_board.getTrapLocations()[1])
-			{
-				e.hit(damage1);
-			}
-			else if (ycoord == m_board.getTrapLocations()[2] && xcoord == m_board.getTrapLocations()[3])
-			{
-				e.hit(damage2);
-			}
-		}
-		//regular room
-		else if (!m_board.m_isCorridor && !m_board.m_isBossRoom)
-		{
-			if (ycoord == m_board.getTrapLocations()[0] && xcoord == m_board.getTrapLocations()[1])
-			{
-				e.hit(damage1);
-			}
-		}
-		//no traps in corridors
-	}
-
-
-
-	void playerChangeDirection()
-	{
-		int direction = getUserInputInt(1, 4);
-		(*player).changeDirection(direction);
-	}
-
-
-	
-	void computerChangeDirection(Monster monster, int direction)
-	{
-		monster.changeDirection(direction);
-	}
-
-
-
-	//dispay monster moves and monster stats
-	void refresh()
-	{
-		//clear the screen
-		clearScreen(ScreenBuffer);
-		//display the board
-		m_board.displayCurrentRoom();
-		//display player stats
-		(*player).displayStats();
-		//display currentMenu
-		m_menu.displayCurrentMenu((*player).m_inventory, (*player).m_class);
-		
-		//Display all monster stats
-		for (Monster m : m_monsters)
-		{
-			m.displayStats();
-		}
-	}
-
-
-
-	bool playAgain()
-	{
-		std::cout << "Would you like to play again?" << std::endl;
-		std::cout << "1 for yes. 2 for no." << std::endl;
-		int input = getUserInputInt(1, 2);
-
-		if (input == 1)
-			m_notFirstPlaythrough = true;
-		else
-			m_notFirstPlaythrough = false;
-
-		return m_notFirstPlaythrough;
-	}
-
-
-
-	void playGame()
-	{
-		initializeGame();
-		while (!m_gameOver)
-			takeTurns();
-	}
-
-
-
-	void checkGameOver()
-	{
-		if (!(*player).isAlive())
-		{
-			clearScreen(ScreenBuffer);
-			std::cout << "The dungeons of Chaos have defeated you and Vecna Lives" << "\n" << std::endl;
-			if (playAgain())
-			{
-				playGame();
-			}
-			else
-			{
-				m_gameOver = true;
-				clearScreen(ScreenBuffer);
-				std::cout << "Thanks for playing!" << std::endl;
-			}
-		}
-		else if (vecnaIsDead())
-		{
-			clearScreen(ScreenBuffer);
-			std::cout << (*player).getName() << " " << "has destroyed Vecna. Peace is restored to the multiverse!" << "\n" << std::endl;
-			if (playAgain())
-			{
-				playGame();
-			}
-			else
-			{
-				m_gameOver = true;
-				clearScreen(ScreenBuffer);
-				std::cout << "Thanks for playing!" << std::endl;
-			}
-		}
-	}
-
-
-
-	bool vecnaIsDead()
-	{
-		return m_vecnaIsDead;
-	}
-
-
-
-	void takeTurns()
-	{
-		if (m_turn % 2 == 0)
-		{
-			for (Monster monster : m_monsters)
-			{
-				computerTakeTurn(monster);
-				checkForSlainMonsters();
-				checkGameOver();
-			}
-			m_turn++;
-		}
-		else
-		{
-			playerTakeTurn();
-			checkGameOver();
-			(*player).levelUp();
-			m_turn++;
-		}
-	}
-
-
-
-	//When using the hand of vecna a monster was reduced to 0 hp and didn't go away till the next action
-	void checkForSlainMonsters()
-	{
-		for (int i = 0; i < m_monsters.size(); i++)
-		{
-			if (m_monsters[i].m_currentHealth <= 0)
-			{
-				//give xp, remove the body, kill the monster, refresh the board
-				(*player).m_xp += m_monsters[i].m_xpValue;
-				m_board.markRoom(m_monsters[i].m_yCoord, m_monsters[i].m_xCoord,' ',m_board.m_currentRoom);
-				m_monsters.erase(m_monsters.begin()+i);
-			}
-		}
-		//TEST CODE
-		m_board.refreshBoard();
-		//refresh monsters
-		for (Monster m : m_monsters)
-		{
-			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
-		}
-		//refresh player
-		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
-	}
-
-
-
-	void playerTakeTurn()
-	{
-		playerDetermineMove();
-
-		//if fighter reset number of attacks after move has been taken
-		if ((*player).m_class == "FIGHTER")
-		{
-			Fighter* f = dynamic_cast<Fighter*>(player);
-			f->m_currentNumAttacks = f->m_numAttacks;
-		}
-	}
-
-
-	
 	void computerTakeTurn(Monster monster)
 	{
 		computerDetermineMove();
@@ -486,221 +293,13 @@ public:
 
 
 
-	//This calls Menu::navigateMenus and decides behavior based on the return value of that function
-	//WHEN TURNS START HAPPENING NEED TO DELETE UNNECESSARY PLAYERDETERMINEMOVE RECURSIVE CALLS
-	//POTENTIALLY REPLACE THESE CALLS WITH AN INCREMENT OF TURN
-	void playerDetermineMove()
-	{
-		m_menu.m_currentMenu = 1;
-		refresh();
-		int decision = m_menu.navigateMenus((*player).m_inventory, isOnValidChest(), (*player).m_class);
-		switch (decision)
-		{
-		case 1:
-			move((*player));
-			break;
-		case 2:
-			(*player).changeDirection(1);
-			break;
-		case 3:
-			(*player).changeDirection(2);
-			break;
-		case 4:
-			(*player).changeDirection(3);
-			break;
-		case 5:
-			(*player).changeDirection(4);
-			break;
-		case 6:
-			//TEST THIS
-			if ((*player).m_class == "FIGHTER")
-			{
-				Fighter* f = dynamic_cast<Fighter*>(player);
-				if (f->m_currentNumAttacks > 0)
-				{
-					combat((*player));
-					f->m_currentNumAttacks--;
-					if (f->m_currentNumAttacks == 0)
-						break;
-					else
-						playerDetermineMove();
-				}
-			}
-			else
-			{
-				combat((*player));
-			}
-			break;
-		case 7:
-			exitRoom();
-			//Mark the room with your new location
-			m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
-			break;
-		case 8:
-			resolveChestInteraction();
-			removeChestFromBoard();
-			break;
-		case 9:
-			resolveDialogue();
-			break;
-		case 10:
-			resolveInvestigate();
-			break;
-		case 11:
-			checkForTraps();
-			break;
-		case 12:
-			useInventorySlot(0);
-			playerDetermineMove();
-			break;
-		case 13:
-			dropInventorySlot(0);
-			playerDetermineMove();
-			break;
-		case 14:
-			useInventorySlot(1);
-			playerDetermineMove();
-			break;
-		case 15:
-			dropInventorySlot(1);
-			playerDetermineMove();
-			break;
-		case 16:
-			useInventorySlot(2);
-			playerDetermineMove();
-			break;
-		case 17:
-			dropInventorySlot(2);
-			playerDetermineMove();
-			break;
-		case 18:
-			useInventorySlot(3);
-			playerDetermineMove();
-			break;
-		case 19:
-			dropInventorySlot(3);
-			playerDetermineMove();
-			break;
-		case 20:
-			useInventorySlot(4);
-			playerDetermineMove();
-			break;
-		case 21:
-			dropInventorySlot(4);
-			playerDetermineMove();
-			break;
-		case 22:
-			if ((*player).m_class == "PRIEST ")
-			{
-				//This has to be safe because the classType is priest
-				Priest* p = dynamic_cast<Priest*>(player);
-				(*p).heal();
-			}
-			break;
-		case 24:
-			playerDetermineMove();
-			break;
-		default:
-			clearScreen(ScreenBuffer);
-			std::cout << "ERROR IN MENU NAVIGATION" << std::endl;
-			abort();
-		}
-	}
-
-
-	
-	void removeChestFromBoard()
-	{
-		int playerY = (*player).m_yCoord;
-		int playerX = (*player).m_xCoord;
-		int treasure1Y = m_board.getTreasureLocations()[0];
-		int treasure1X = m_board.getTreasureLocations()[1];
-
-		//If you're not on the first treasure you must be on the second treasure
-		if (m_board.m_firstTreasureTaken == false && playerX == treasure1X && playerY == treasure1Y)
-			m_board.m_firstTreasureTaken = true;
-		else
-			m_board.m_secondTreasureTaken = true;
-	}
-
-
-	
-	void useInventorySlot(int slot)
-	{
-		assert(slot >= 0 && slot < (*player).m_inventory.size());
-
-		std::string item = (*player).m_inventory[slot];
-		if (item.at(0) == ' ')
-		{
-			return;
-		}
-		else if (!item.compare("HAND_OF_VECNA              "))
-		{
-			//This clears the room of monsters and give the player 500 xp
-			for (Monster& m : m_monsters)
-			{
-				m.m_currentHealth = 0;
-			}
-
-			checkForSlainMonsters();
-		}
-		else if (!item.compare("EYE_OF_VECNA               "))
-		{
-			//Need to figure out something that this can do
-		}
-		else if (!item.compare("POTION_OF_HEALTH           "))
-		{
-			(*player).hit(generateRandomNumber(-40, -5));
-		}
-		else if (!item.compare("POTION_OF_EXPERIENCE       "))
-		{
-			(*player).m_xp += 1000;
-		}
-		else if (!item.compare("POTION_OF_STRENGTH         "))
-		{
-			(*player).m_doDamageMin += 10;
-			(*player).m_doDamageMax += 10;
-		}
-		else if (!item.compare("MAGIC_MISSILE              "))
-		{
-			std::vector<int> damage = { 4,8,18 };
-			
-			for (Monster& m : m_monsters)
-			{
-				m.hit(damage[generateRandomNumber(0,2)]);
-			}
-		}
-		else if (!item.compare("LIGHTNING_BOLT             "))
-		{
-			std::vector<int> damage = { 6,24,48 };
-			
-			for (Monster& m : m_monsters)
-			{
-				m.hit(damage[generateRandomNumber(0, 2)]);
-			}
-		}
-		else if (!item.compare("FIRE_BALL                  "))
-		{
-			std::vector<int> damage = { 10,40,80 };
-			
-			for (Monster& m : m_monsters)
-			{
-				m.hit(damage[generateRandomNumber(0, 2)]);
-			}
-		}
-
-		dropInventorySlot(slot);
-	}
-
-
-	
 	void dropInventorySlot(int slot)
 	{
 		assert(slot >= 0 && slot < (*player).m_inventory.size());
 		(*player).m_inventory[slot] = "                           ";
 	}
 
-	
+
 
 	//This function determines the type of room we are in, whether or not we are on an exit
 	//which direction that exit is then calls initializeNewRoom(exitDirection) 
@@ -850,18 +449,420 @@ public:
 	}
 
 
-	
-	void checkForTraps()
+
+	//This function returns the index of the inventory item type you pass into it 
+	//(1 for swords, 2 for armor, 3 for gold, 4 for scroll)
+	int indexOfInventoryItemType(int itemType)
 	{
-		m_board.m_trapsChecked = true;
+		//sword
+		if (itemType == 1)
+		{
+			for (int i = 0; i < (*player).m_inventory.size(); i++)
+			{
+				if ((*player).m_inventory[i].find("SWORD", 0) != std::string::npos)
+				{
+					return i;
+				}
+				else if((*player).m_inventory[i].find("BLACK", 0) != std::string::npos)
+				{
+					return i;
+				}
+			}
+		}
+		//armor
+		else if (itemType == 2)
+		{
+			for (int i = 0; i < (*player).m_inventory.size(); i++)
+			{
+				if ((*player).m_inventory[i].find("ARMOR", 0) != std::string::npos)
+					return i;
+			}
+		}
+		//gold
+		else if (itemType == 3)
+		{
+			for (int i = 0; i < (*player).m_inventory.size(); i++)
+			{
+				if ((*player).m_inventory[i].find("GOLD", 0) != std::string::npos)
+					return i;
+			}
+		}
+		//scroll
+		else if (itemType == 4)
+		{
+			for (int i = 0; i < (*player).m_inventory.size(); i++)
+			{
+				if ((*player).m_inventory[i].find("MAGIC", 0) != std::string::npos)
+					return i;
+				else if ((*player).m_inventory[i].find("LIGHTNING", 0) != std::string::npos)
+					return i;
+				else if ((*player).m_inventory[i].find("FIRE", 0) != std::string::npos)
+					return i;
+			}
+		}
+
+		return -1;
+	}
+
+
+
+	void initializeComputerPositions()
+	{
+		
+		int playerY = (*player).m_yCoord;
+		int playerX = (*player).m_xCoord;
+		std::vector<int> playerPosition{ playerY, playerX };
+
+		std::vector<std::vector<int>> occupiedPositions{ playerPosition };
+
+
+		for (Monster &m : m_monsters)
+		{																										
+			std::vector<int> monsterPosition = randomRoomLocation();											
+																												
+			for (std::vector<int> position : occupiedPositions)													
+			{																									
+				if (monsterPosition[0] == position[0] && monsterPosition[1] == position[1])						
+				{																								
+					while (monsterPosition[0] == position[0] && monsterPosition[1] == position[1])				
+						monsterPosition = randomRoomLocation();													
+				}																								
+																												
+			}																									
+				//put the monster position into occupied positions												
+				occupiedPositions.push_back(monsterPosition);													
+																												
+				//put the monster on the board																	
+				m_board.markRoom(monsterPosition[0], monsterPosition[1], m.getSymbol(), m_board.m_currentRoom);	
+																												
+				//update the monster's locations fields															
+				m.m_yCoord = monsterPosition[0];																
+				m.m_xCoord = monsterPosition[1];																
+		}
+	}
+
+
+
+	void initializeGame()
+	{
+		//Clear the screen
+		clearScreen(ScreenBuffer);
+		//Reset game over
+		m_gameOver = false;
+		//Bring vecna back
+		m_vecnaIsDead = false;
+		//Set dungeon Level to 1
+		m_board.setCurrentDungeoneLevel(1);
+		//reset chance to generateBossRoom
+		m_board.setChanceToGenerateBossRoom(0);
+		//Set turn to 1
+		m_turn = 1;
+		//Initialize new Room
+		if (m_notFirstPlaythrough)
+			m_board.initializeNewRoom(rand() % 4 + 1);
+		//Initialize the characters
+		playerInitializeCharacter();
+	}
+
+
+
+	bool isOnValidChest()
+	{
+		int playerY = (*player).getLocation()[0];
+		int playerX = (*player).getLocation()[1];
+		int firstTreasureY = m_board.getTreasureLocations()[0];
+		int firstTreasureX = m_board.getTreasureLocations()[1];
+		int secondTreasureY = m_board.getTreasureLocations()[2];
+		int secondTreasureX = m_board.getTreasureLocations()[3];
+
+		//need to account for two chests on top of eachother
+		if (playerY == firstTreasureY && playerX == firstTreasureX && !m_board.m_firstTreasureTaken)
+			return true;
+		else if (!m_board.m_isCorridor && playerY == secondTreasureY && playerX == secondTreasureX && !m_board.m_secondTreasureTaken)
+			return true;
+		else
+			return false;
+	}
+
+
+	
+	void move(Entity& e)
+	{
+		//Remove old mark
+		m_board.markRoom(e.getLocation()[0], e.getLocation()[1], ' ', m_board.m_currentRoom);
+		
+		//Refresh the Board
 		m_board.refreshBoard();
-		//TEST CODE
+
 		//refresh monsters
+		for (Monster m : m_monsters)																		  
+		{																									  
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);					  
+		}																									  
+
+		//Move
+		e.move(m_board);
+		int ycoord = e.getLocation()[0];
+		int xcoord = e.getLocation()[1];
+
+		//Determine if you stepped on a trap
+		resolveTraps(e);
+		
+		//Mark the room with your new location
+		m_board.markRoom(ycoord, xcoord, e.getName().at(0) , m_board.m_currentRoom);
+	}
+
+
+
+	bool playAgain()
+	{
+		std::cout << "Would you like to play again?" << std::endl;
+		std::cout << "1 for yes. 2 for no." << std::endl;
+		int input = getUserInputInt(1, 2);
+
+		if (input == 1)
+			m_notFirstPlaythrough = true;
+		else
+			m_notFirstPlaythrough = false;
+
+		return m_notFirstPlaythrough;
+	}
+
+
+
+	void playerChangeDirection()
+	{
+		int direction = getUserInputInt(1, 4);
+		(*player).changeDirection(direction);
+	}
+
+
+
+	void playerInitializeCharacter()
+	{
+		clearScreen(ScreenBuffer);
+		m_menu.openClassSelectionMenu();
+		int input = getUserInputInt(1,3);
+
+		clearScreen(ScreenBuffer);
+		m_menu.openNameSelectionMenu();
+		std::string name = getUserInputString();
+
+		switch (input)
+		{
+		case 1:
+			player = new Fighter();
+			(*player).m_name = name;
+			break;
+		case 2:
+			player = new Wizard();
+			(*player).m_name = name;
+			break;
+		case 3:
+			player = new Priest();
+			(*player).m_name = name;
+			break;
+		default:
+			std::cout << "ERROR PLAYER INITIALIZATION FAILED" << std::endl;
+			abort();
+			break;
+		}
+
+		(*player).m_yCoord = m_board.getCurrentRoomRows() / 2;
+		(*player).m_xCoord = m_board.getCurrentRoomColumns() / 2;
+		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getSymbol(), m_board.m_currentRoom);
+	}
+
+
+
+	void playerTakeTurn()
+	{
+		playerDetermineMove();
+
+		//if fighter reset number of attacks after move has been taken
+		if ((*player).m_class == "FIGHTER")
+		{
+			Fighter* f = dynamic_cast<Fighter*>(player);
+			f->m_currentNumAttacks = f->m_numAttacks;
+		}
+	}
+
+
+
+	//This calls Menu::navigateMenus and decides behavior based on the return value of that function
+	//WHEN TURNS START HAPPENING NEED TO DELETE UNNECESSARY PLAYERDETERMINEMOVE RECURSIVE CALLS
+	//POTENTIALLY REPLACE THESE CALLS WITH AN INCREMENT OF TURN
+	void playerDetermineMove()
+	{
+		m_menu.m_currentMenu = 1;
+		refresh();
+		int decision = m_menu.navigateMenus((*player).m_inventory, isOnValidChest(), (*player).m_class);
+		switch (decision)
+		{
+		case 1:
+			move((*player));
+			break;
+		case 2:
+			(*player).changeDirection(1);
+			break;
+		case 3:
+			(*player).changeDirection(2);
+			break;
+		case 4:
+			(*player).changeDirection(3);
+			break;
+		case 5:
+			(*player).changeDirection(4);
+			break;
+		case 6:
+			//TEST THIS
+			if ((*player).m_class == "FIGHTER")
+			{
+				Fighter* f = dynamic_cast<Fighter*>(player);
+				if (f->m_currentNumAttacks > 0)
+				{
+					combat((*player));
+					f->m_currentNumAttacks--;
+					if (f->m_currentNumAttacks == 0)
+						break;
+					else
+						playerDetermineMove();
+				}
+			}
+			else
+			{
+				combat((*player));
+			}
+			break;
+		case 7:
+			exitRoom();
+			//Mark the room with your new location
+			m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
+			break;
+		case 8:
+			resolveChestInteraction();
+			removeChestFromBoard();
+			break;
+		case 9:
+			resolveDialogue();
+			break;
+		case 10:
+			resolveInvestigate();
+			break;
+		case 11:
+			checkForTraps();
+			break;
+		case 12:
+			useInventorySlot(0);
+			playerDetermineMove();
+			break;
+		case 13:
+			dropInventorySlot(0);
+			playerDetermineMove();
+			break;
+		case 14:
+			useInventorySlot(1);
+			playerDetermineMove();
+			break;
+		case 15:
+			dropInventorySlot(1);
+			playerDetermineMove();
+			break;
+		case 16:
+			useInventorySlot(2);
+			playerDetermineMove();
+			break;
+		case 17:
+			dropInventorySlot(2);
+			playerDetermineMove();
+			break;
+		case 18:
+			useInventorySlot(3);
+			playerDetermineMove();
+			break;
+		case 19:
+			dropInventorySlot(3);
+			playerDetermineMove();
+			break;
+		case 20:
+			useInventorySlot(4);
+			playerDetermineMove();
+			break;
+		case 21:
+			dropInventorySlot(4);
+			playerDetermineMove();
+			break;
+		case 22:
+			if ((*player).m_class == "PRIEST ")
+			{
+				//This has to be safe because the classType is priest
+				Priest* p = dynamic_cast<Priest*>(player);
+				(*p).heal();
+			}
+			break;
+		case 24:
+			playerDetermineMove();
+			break;
+		default:
+			clearScreen(ScreenBuffer);
+			std::cout << "ERROR IN MENU NAVIGATION" << std::endl;
+			abort();
+		}
+	}
+
+
+
+	void playGame()
+	{
+		initializeGame();
+		while (!m_gameOver)
+			takeTurns();
+	}
+	
+
+
+	std::vector<int> randomRoomLocation()
+	{
+		int Y = generateRandomNumber(0, m_board.getCurrentRoomRows());
+		int X = generateRandomNumber(0, m_board.getCurrentRoomColumns());
+		return { Y,X };
+	}
+
+
+
+	//dispay monster moves and monster stats
+	void refresh()
+	{
+		//clear the screen
+		clearScreen(ScreenBuffer);
+		//display the board
+		m_board.displayCurrentRoom();
+		//display player stats
+		(*player).displayStats();
+		//display currentMenu
+		m_menu.displayCurrentMenu((*player).m_inventory, (*player).m_class);
+		
+		//Display all monster stats
 		for (Monster m : m_monsters)
 		{
-			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);
+			m.displayStats();
 		}
-		m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
+	}
+
+
+
+	void removeChestFromBoard()
+	{
+		int playerY = (*player).m_yCoord;
+		int playerX = (*player).m_xCoord;
+		int treasure1Y = m_board.getTreasureLocations()[0];
+		int treasure1X = m_board.getTreasureLocations()[1];
+
+		//If you're not on the first treasure you must be on the second treasure
+		if (m_board.m_firstTreasureTaken == false && playerX == treasure1X && playerY == treasure1Y)
+			m_board.m_firstTreasureTaken = true;
+		else
+			m_board.m_secondTreasureTaken = true;
 	}
 
 
@@ -875,7 +876,7 @@ public:
 	void resolveChestInteraction()
 	{
 		//parse for sword (inventory item type 1)
-		int swordIndex = IndexOfInventoryItemType(1);
+		int swordIndex = indexOfInventoryItemType(1);
 		//swords are only for fighters and priests
 		if (((*player).m_class.at(0) == 'F' || (*player).m_class.at(0) == 'P') && swordIndex != -1)
 		{
@@ -913,7 +914,7 @@ public:
 
 
 		//parse for armor (inventory item type 2)
-		int armorIndex = IndexOfInventoryItemType(2);
+		int armorIndex = indexOfInventoryItemType(2);
 		if (((*player).m_class.at(0) == 'F' || (*player).m_class.at(0) == 'P') && armorIndex != -1)
 		{
 			//decide if this is the best armor we have
@@ -946,7 +947,7 @@ public:
 
 		
 		//parse for gold (inventory item type 3)
-		int goldIndex = IndexOfInventoryItemType(3);
+		int goldIndex = indexOfInventoryItemType(3);
 		if (goldIndex != -1)
 		{
 			//Add the gold
@@ -968,7 +969,7 @@ public:
 
 
 		//parse for scoll (inventory item type 4)
-		int scrollIndex = IndexOfInventoryItemType(4);
+		int scrollIndex = indexOfInventoryItemType(4);
 		if (((*player).m_class.at(0) == 'W') && scrollIndex != -1)
 		{
 			//The player inventory versions are "MISSILE ", "LIGHTNIN", "FIREBALL"
@@ -992,6 +993,77 @@ public:
 		{
 			//drop the scroll because fighters can't use scrolls
 			dropInventorySlot(scrollIndex);
+		}
+	}
+
+
+
+	//IMPLEMENT
+	void resolveDialogue()
+	{
+
+	}
+
+
+
+	void resolveInvestigate()
+	{
+		clearScreen(ScreenBuffer);
+		std::cout << m_menu.m_investigateContents[generateRandomNumber(0, m_menu.m_investigateContents.size() - 1)];
+		Sleep(2500);
+	}
+
+
+
+	void resolveTraps(Entity& e)
+	{
+		int ycoord = e.getLocation()[0];
+		int xcoord = e.getLocation()[1];
+		int damage1 = generateRandomNumber(5, 20) * m_board.getCurrentDungeonLevel();
+		int damage2 = generateRandomNumber(5, 20) * m_board.getCurrentDungeonLevel();
+		//bossroom
+		if (m_board.m_isBossRoom)
+		{
+			if (ycoord == m_board.getTrapLocations()[0] && xcoord == m_board.getTrapLocations()[1])
+			{
+				e.hit(damage1);
+			}
+			else if (ycoord == m_board.getTrapLocations()[2] && xcoord == m_board.getTrapLocations()[3])
+			{
+				e.hit(damage2);
+			}
+		}
+		//regular room
+		else if (!m_board.m_isCorridor && !m_board.m_isBossRoom)
+		{
+			if (ycoord == m_board.getTrapLocations()[0] && xcoord == m_board.getTrapLocations()[1])
+			{
+				e.hit(damage1);
+			}
+		}
+		//no traps in corridors
+	}
+
+
+
+	void takeTurns()
+	{
+		if (m_turn % 2 == 0)
+		{
+			for (Monster monster : m_monsters)
+			{
+				computerTakeTurn(monster);
+				checkForSlainMonsters();
+				checkGameOver();
+			}
+			m_turn++;
+		}
+		else
+		{
+			playerTakeTurn();
+			checkGameOver();
+			(*player).levelUp();
+			m_turn++;
 		}
 	}
 
@@ -1067,149 +1139,80 @@ public:
 
 
 
-	//This function returns the index of the inventory item type you pass into it (1 for swords, 2 for armor, 3 for gold, 4 for scroll)
-	int IndexOfInventoryItemType(int itemType)
+	void useInventorySlot(int slot)
 	{
-		//sword
-		if (itemType == 1)
+		assert(slot >= 0 && slot < (*player).m_inventory.size());
+
+		std::string item = (*player).m_inventory[slot];
+		if (item.at(0) == ' ')
 		{
-			for (int i = 0; i < (*player).m_inventory.size(); i++)
-			{
-				if ((*player).m_inventory[i].find("SWORD", 0) != std::string::npos)
-				{
-					return i;
-				}
-				else if((*player).m_inventory[i].find("BLACK", 0) != std::string::npos)
-				{
-					return i;
-				}
-			}
+			return;
 		}
-		//armor
-		else if (itemType == 2)
+		else if (!item.compare("HAND_OF_VECNA              "))
 		{
-			for (int i = 0; i < (*player).m_inventory.size(); i++)
+			//This clears the room of monsters and give the player 500 xp
+			for (Monster& m : m_monsters)
 			{
-				if ((*player).m_inventory[i].find("ARMOR", 0) != std::string::npos)
-					return i;
+				m.m_currentHealth = 0;
 			}
+
+			checkForSlainMonsters();
 		}
-		//gold
-		else if (itemType == 3)
+		else if (!item.compare("EYE_OF_VECNA               "))
 		{
-			for (int i = 0; i < (*player).m_inventory.size(); i++)
-			{
-				if ((*player).m_inventory[i].find("GOLD", 0) != std::string::npos)
-					return i;
-			}
+			//Need to figure out something that this can do
 		}
-		//scroll
-		else if (itemType == 4)
+		else if (!item.compare("POTION_OF_HEALTH           "))
 		{
-			for (int i = 0; i < (*player).m_inventory.size(); i++)
-			{
-				if ((*player).m_inventory[i].find("MAGIC", 0) != std::string::npos)
-					return i;
-				else if ((*player).m_inventory[i].find("LIGHTNING", 0) != std::string::npos)
-					return i;
-				else if ((*player).m_inventory[i].find("FIRE", 0) != std::string::npos)
-					return i;
-			}
+			(*player).hit(generateRandomNumber(-40, -5));
 		}
-
-		return -1;
-	}
-
-
-
-	bool isOnValidChest()
-	{
-		int playerY = (*player).getLocation()[0];
-		int playerX = (*player).getLocation()[1];
-		int firstTreasureY = m_board.getTreasureLocations()[0];
-		int firstTreasureX = m_board.getTreasureLocations()[1];
-		int secondTreasureY = m_board.getTreasureLocations()[2];
-		int secondTreasureX = m_board.getTreasureLocations()[3];
-
-		//need to account for two chests on top of eachother
-		if (playerY == firstTreasureY && playerX == firstTreasureX && !m_board.m_firstTreasureTaken)
-			return true;
-		else if (!m_board.m_isCorridor && playerY == secondTreasureY && playerX == secondTreasureX && !m_board.m_secondTreasureTaken)
-			return true;
-		else
-			return false;
-	}
-
-
-
-	//IMPLEMENT
-	void resolveDialogue()
-	{
-
-	}
-
-
-
-	void resolveInvestigate()
-	{
-		clearScreen(ScreenBuffer);
-		std::cout << m_menu.m_investigateContents[generateRandomNumber(0, m_menu.m_investigateContents.size() - 1)];
-		Sleep(2500);
-	}
-
-
-
-	//The infamous AI
-	void computerDetermineMove()
-	{
-		//We will need to plan this A.I. out based on class type
-	}
-
-
-
-	//TEST AND BEWARE
-	void combat(Entity &attacker)
-	{
-		//determine if the attacker is a monster or a player
-		//monster
-		if (m_turn % 2 == 0)
+		else if (!item.compare("POTION_OF_EXPERIENCE       "))
 		{
-			std::vector<int> attackSolution = attacker.attack(m_board, (*player).m_armorClass, attacker.m_range);
+			(*player).m_xp += 1000;
+		}
+		else if (!item.compare("POTION_OF_STRENGTH         "))
+		{
+			(*player).m_doDamageMin += 10;
+			(*player).m_doDamageMax += 10;
+		}
+		else if (!item.compare("MAGIC_MISSILE              "))
+		{
+			std::vector<int> damage = { 4,8,18 };
 			
-			if (attacker.m_range)
+			for (Monster& m : m_monsters)
 			{
-				(*player).hit(attackSolution[generateRandomNumber(1, 3)]);
+				m.hit(damage[generateRandomNumber(0,2)]);
 			}
-			else
-			{
-				if ((*player).getLocation()[0] == attackSolution[0] && (*player).getLocation()[1] == attackSolution[1])
-					(*player).hit(attackSolution[3]);
-			}
-			
 		}
-		//player
-		else
+		else if (!item.compare("LIGHTNING_BOLT             "))
 		{
-			if ((*player).m_range)
+			std::vector<int> damage = { 6,24,48 };
+			
+			for (Monster& m : m_monsters)
 			{
-				for (Monster &m : m_monsters)
-				{
-					int damage = (*player).attack(m_board, m.m_armorClass, (*player).m_range)[generateRandomNumber(0,2)];
-					m.hit(damage);
-				}
-			}
-			else
-			{
-				for (Monster &m : m_monsters)
-				{
-					std::vector<int> attackSolution = (*player).attack(m_board, m.m_armorClass, (*player).m_range);
-					if (m.getLocation()[0] == attackSolution[0] && m.getLocation()[1] == attackSolution[1])
-					{
-						m.hit(attackSolution[2]);
-						return;
-					}
-				}
+				m.hit(damage[generateRandomNumber(0, 2)]);
 			}
 		}
+		else if (!item.compare("FIRE_BALL                  "))
+		{
+			std::vector<int> damage = { 10,40,80 };
+			
+			for (Monster& m : m_monsters)
+			{
+				m.hit(damage[generateRandomNumber(0, 2)]);
+			}
+		}
+
+		dropInventorySlot(slot);
 	}
+
+
+
+	bool vecnaIsDead()
+	{
+		return m_vecnaIsDead;
+	}
+
+
+
 };

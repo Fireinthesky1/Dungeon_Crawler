@@ -7,10 +7,6 @@
 /*
 *	-Get current build stable then work on a.i. 
 * 
-*	-Need a way for monster actions to be displayed to user (line 331)
-* 
-*	-Reduce the amount of monsters spawning
-* 
 *	-Get turns happening
 *	-Implement AI
 *		-just added monsterType which will help navigate behaviors in the ai function
@@ -27,6 +23,7 @@
 
 //IDEAS
 /*
+*	-Need a way for monster actions to be displayed to user (line 331)
 *	-Try to introduce rarity to the items you find in chests (hand and eye and black heart and vorpal being
 *	 extremely rare)
 *	-Need to remove artifacts from list of chest items after they've been found
