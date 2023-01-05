@@ -197,9 +197,53 @@ public:
 
 
 	//The infamous AI
-	void computerDetermineMove()
+	void computerDetermineMove(Monster monster)
 	{
-		//We will need to plan this A.I. out based on class type
+		//monsterType chart
+		/*
+		1:  skeleton	(range == true)
+		2:  zombie		(range == false)
+		3:  spider		(range == false)
+		4:  Goblin		(range == false)
+		5:  Orc			(range == false)
+		6:  Bugbear		(range == true)
+		7:  Cultist		(range == true)
+		8:  Mummy		(range == false)
+		9:  Rat			(range == false)
+		10: Bat			(range == false)
+		11: Mimic		(range == false)
+		12: Purpleworm	(range == true)
+		*/
+		
+		//ranged types won't move, just shoot every round
+		if (monster.m_range)
+		{
+			return;
+		}
+
+		//just for non ranged
+		switch (monster.m_monsterType)
+		{
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 8:
+			break;
+		case 9:
+			break;
+		case 10:
+			break;
+		case 11:
+			break;
+		default:
+			std::cout << "ERROR::COMPUTER::DETERMINE::MOVE" << std::endl;
+			abort();
+		}
 	}
 
 
@@ -288,7 +332,7 @@ public:
 
 	void computerTakeTurn(Monster monster)
 	{
-		computerDetermineMove();
+		computerDetermineMove(monster);
 	}
 
 

@@ -26,6 +26,8 @@ std::vector<int> Mummy::areaOfEffectCoordinates()
 	//returns all of the squares in which area of effect damage will apply to
 	//format will be
 	//y1, x1, y2, x2, y3, x3, y4, x4
+	int y = m_yCoord;
+	int x = m_xCoord;
 	std::vector<int> coordinates;
 	return coordinates;
 }
