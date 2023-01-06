@@ -148,8 +148,10 @@ public:
 		//monster
 		if (m_turn % 2 == 0)
 		{
-			std::vector<int> attackSolution = attacker.attack(m_board, (*player).m_armorClass, attacker.m_range);
-			
+			//doing this because all monsters have +5 to hit and will scale to dungeon level
+			int adjustedArmorClass = (*player).m_armorClass - 5 - m_board.getCurrentDungeonLevel();
+			assert(adjustedArmorClass >= 1);
+			std::vector<int> attackSolution = attacker.attack(m_board, adjustedArmorClass, attacker.m_range);
 			if (attacker.m_range)
 			{
 				(*player).hit(attackSolution[generateRandomNumber(1, 3)]);
@@ -196,7 +198,7 @@ public:
 
 
 
-	//The infamous AI
+	//TESTING RANGED MONSTERS
 	void computerDetermineMove(Monster monster)
 	{
 		//monsterType chart
@@ -218,6 +220,7 @@ public:
 		//ranged types won't move, just shoot every round
 		if (monster.m_range)
 		{
+			combat(monster);
 			return;
 		}
 
@@ -604,6 +607,8 @@ public:
 		//Initialize new Room
 		if (m_notFirstPlaythrough)
 			m_board.initializeNewRoom(rand() % 4 + 1);
+		//clear the monster vector
+		m_monsters.clear();
 		//Initialize the characters
 		playerInitializeCharacter();
 	}
