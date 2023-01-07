@@ -1,25 +1,4 @@
 ﻿  Application.cpp
 C:\Users\James\source\repos\DUNGEON\Game.h(1061,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\James\source\repos\DUNGEON\Application.cpp(45,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Bat.cpp
-  Bugbear.cpp
-  Cultist.cpp
-  Entity.cpp
-  Fighter.cpp
-  Goblin.cpp
-  Menu.cpp
-C:\Users\James\source\repos\DUNGEON\Menu.cpp(298,2): warning C4065: switch statement contains 'default' but no 'case' labels
-  Mimic.cpp
-  Monster.cpp
-  Mummy.cpp
-  Orc.cpp
-  Player.cpp
-  Priest.cpp
-  PurpleWorm.cpp
-  Rat.cpp
-  Skeleton.cpp
-  Spider.cpp
-  Wizard.cpp
-  Zombie.cpp
-  Generating Code...
+C:\Users\James\source\repos\DUNGEON\Application.cpp(47,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   TextBasedDungeonCrawler(7-14-2022).vcxproj -> C:\Users\James\source\repos\DUNGEON\x64\Debug\DUNGEON.exe

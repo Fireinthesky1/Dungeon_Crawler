@@ -46,7 +46,6 @@ public:
 	Board m_board;
 	Menu m_menu;
 	std::vector<Monster> m_monsters;
-	//std::vector<NPC> npcs;
 	Player *player;
 
 
@@ -149,7 +148,7 @@ public:
 		if (m_turn % 2 == 0)
 		{
 			//doing this because all monsters have +5 to hit and will scale to dungeon level
-			int adjustedArmorClass = (*player).m_armorClass - 5 - m_board.getCurrentDungeonLevel();
+			int adjustedArmorClass = (*player).m_armorClass - m_board.getCurrentDungeonLevel();
 			assert(adjustedArmorClass >= 1);
 			std::vector<int> attackSolution = attacker.attack(m_board, adjustedArmorClass, attacker.m_range);
 			if (attacker.m_range)
@@ -217,6 +216,9 @@ public:
 		12: Purpleworm	(range == true)
 		*/
 		
+		//if monster has 0 or less HP return
+		if (monster.m_currentHealth <= 0) { return; }
+
 		//ranged types won't move, just shoot every round
 		if (monster.m_range)
 		{
@@ -753,15 +755,19 @@ public:
 			break;
 		case 2:
 			(*player).changeDirection(1);
+			playerDetermineMove();
 			break;
 		case 3:
 			(*player).changeDirection(2);
+			playerDetermineMove();
 			break;
 		case 4:
 			(*player).changeDirection(3);
+			playerDetermineMove();
 			break;
 		case 5:
 			(*player).changeDirection(4);
+			playerDetermineMove();
 			break;
 		case 6:
 			//TEST THIS
@@ -787,13 +793,14 @@ public:
 			exitRoom();
 			//Mark the room with your new location
 			m_board.markRoom((*player).m_yCoord, (*player).m_xCoord, (*player).getName().at(0), m_board.m_currentRoom);
+			playerDetermineMove();
 			break;
 		case 8:
 			resolveChestInteraction();
 			removeChestFromBoard();
 			break;
 		case 9:
-			resolveDialogue();
+			//used to have dialogue. Now empty.
 			break;
 		case 10:
 			resolveInvestigate();
@@ -1009,6 +1016,7 @@ public:
 			std::string subString = (*player).m_inventory[goldIndex].substr(0, lengthOfSubstring);
 			int goldToAdd = std::stoi(subString);
 			(*player).m_gold += goldToAdd;
+			(*player).m_xp += goldToAdd;
 
 
 			//drop the inventory slot
@@ -1043,14 +1051,6 @@ public:
 			//drop the scroll because fighters can't use scrolls
 			dropInventorySlot(scrollIndex);
 		}
-	}
-
-
-
-	//IMPLEMENT
-	void resolveDialogue()
-	{
-
 	}
 
 

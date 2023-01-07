@@ -5,16 +5,11 @@
 
 //TO DO BY PRIORITY
 /*
-*	-Get current build stable then work on a.i. 
+*	-Get Melee A.I. working
 * 
 *	-Get turns happening
-*	-Implement AI
-*		-just added monsterType which will help navigate behaviors in the ai function
-*	-Implement Collision detection for entities
 * 
-*	-Implement dialogue
-*	-Need to implement NPC's
-*	-Need to implement dialogue system
+*	-Implement Collision detection for entities
 * 
 *	-Organize all class methods
 * 
