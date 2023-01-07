@@ -9,15 +9,18 @@ Dungeon Crawler is a text based dungeon crawler game that plays in the console w
 First person text based video game in which the goal is to reach the fourth floor of the dungeon and kill the boss.
 
 ##Interesting Features
+
 -Procedural Room Generation.
 -Hidden Traps.
 -Randomly spawning monsters.
 -Multiple player classes.
 
 ##In Progress
+
 -Testing monster A.I. in it's own branch called "test"
 
 ##To do
+
 -Get monster actions displayed to the user.
 -Create Boss class
 
