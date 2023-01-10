@@ -200,19 +200,21 @@ public:
 	//TESTING RANGED MONSTERS
 	void computerDetermineMove(Monster monster)
 	{
+		//The anatomy of a dungeon room will be 2 ranged and 2 melee.
+		//Each melee monster will have a different attack behavior
 		//monsterType chart
 		/*
 		1:  skeleton	(range == true)
-		2:  zombie		(range == false)
-		3:  spider		(range == false)
-		4:  Goblin		(range == false)
-		5:  Orc			(range == false)
+		2:  zombie		(range == false) (behavior 1)
+		3:  spider		(range == false) (behavior 1)
+		4:  Goblin		(range == false) (behavior 1)
+		5:  Orc			(range == false) (behavior 1)
 		6:  Bugbear		(range == true)
 		7:  Cultist		(range == true)
-		8:  Mummy		(range == false)
-		9:  Rat			(range == false)
-		10: Bat			(range == false)
-		11: Mimic		(range == false)
+		8:  Mummy		(range == false) (behavior 2)
+		9:  Rat			(range == false) (behavior 2)
+		10: Bat			(range == false) (behavior 2)
+		11: Mimic		(range == false) (behavior 2)
 		12: Purpleworm	(range == true)
 		*/
 		
@@ -226,29 +228,61 @@ public:
 			return;
 		}
 
-		//just for non ranged
-		switch (monster.m_monsterType)
+		int type = monster.m_monsterType;
+
+		int playerY = player->m_yCoord;
+		int playerX = player->m_xCoord;
+		int y = monster.m_yCoord;
+		int x = monster.m_xCoord;
+		int direction = monster.m_direction;
+
+		if (type > 1 && type < 6)
 		{
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 8:
-			break;
-		case 9:
-			break;
-		case 10:
-			break;
-		case 11:
-			break;
-		default:
-			std::cout << "ERROR::COMPUTER::DETERMINE::MOVE" << std::endl;
-			abort();
+			//determine north south standing (get into melee range)
+			if (playerY < y - 1 && direction == 1)		//player: north. monster: facing north. move.
+			{
+				move(monster);
+			}
+			else if (playerY < y - 1 && direction != 1) //player: north. monster: facing !north. turn.
+			{
+				computerChangeDirection(monster, 1);
+			}
+			else if (playerY > y + 1 && direction == 3) //player: south. monster: facing south. move.
+			{
+				move(monster);
+			}
+			else if (playerY > y + 1 && direction != 3) //player: south. monster: !facing south. turn.
+			{
+				computerChangeDirection(monster, 3);
+			}
+			//determine east west standing (get into melee range)
+			else if (playerX < x - 1 && direction == 4) //player: west. monster: facing west. move.
+			{
+				move(monster);
+			}
+			else if (playerX < x - 1 && direction != 4) //player: west. monster: !facing west. turn.
+			{
+				computerChangeDirection(monster, 4);
+			}
+			else if (playerX > x + 1 && direction == 2) //player: east. monster: facing east. move.
+			{
+				move(monster);
+			}
+			else if (playerX > x + 1 && direction != 2) //player: east. monster: !facing east. turn.
+			{
+				computerChangeDirection(monster, 2);
+			}
+			else
+			{
+				//LEFT OFF HERE 1/9/23
+				combat(monster);
+			}
 		}
+		else
+		{
+
+		}
+
 	}
 
 
