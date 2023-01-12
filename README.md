@@ -24,11 +24,13 @@ First person text based video game in which the goal is to reach the fourth floo
 -Chose not to play again and was prompted 3 more times before exiting
 -5 orcs were displayed on the board but only four orc stats were displayed
 
+
 ## To do
 
 -Get monster actions displayed to the user.
 -Create Boss class
 -Game is in very buggy state (computer determine move the culptrit)
+-A.I. hits infinite loop when oriented diagonally adjacent to the player.
 
 ## Contributing
 
