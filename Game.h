@@ -141,7 +141,7 @@ public:
 
 
 
-	void combat(Entity &attacker)
+	void combat(Entity& attacker)
 	{
 		//determine if the attacker is a monster or a player
 		//monster
@@ -158,7 +158,7 @@ public:
 			else
 			{
 				if ((*player).getLocation()[0] == attackSolution[0] && (*player).getLocation()[1] == attackSolution[1])
-					(*player).hit(attackSolution[3]);
+					(*player).hit(attackSolution[2]);
 			}
 			
 		}
@@ -190,7 +190,7 @@ public:
 
 
 
-	void computerChangeDirection(Monster monster, int direction)
+	void computerChangeDirection(Monster& monster, int direction)
 	{
 		monster.changeDirection(direction);
 	}
@@ -198,7 +198,8 @@ public:
 
 
 	//TESTING RANGED MONSTERS
-	void computerDetermineMove(Monster monster)
+	//Monsters will stop at the kitty corner
+	void computerDetermineMove(Monster& monster)
 	{
 		//The anatomy of a dungeon room will be 2 ranged and 2 melee.
 		//Each melee monster will have a different attack behavior
@@ -246,6 +247,7 @@ public:
 			else if (playerY < y - 1 && direction != 1) //player: north. monster: facing !north. turn.
 			{
 				computerChangeDirection(monster, 1);
+				computerDetermineMove(monster);
 			}
 			else if (playerY > y + 1 && direction == 3) //player: south. monster: facing south. move.
 			{
@@ -254,6 +256,7 @@ public:
 			else if (playerY > y + 1 && direction != 3) //player: south. monster: !facing south. turn.
 			{
 				computerChangeDirection(monster, 3);
+				computerDetermineMove(monster);
 			}
 			//determine east west standing (get into melee range)
 			else if (playerX < x - 1 && direction == 4) //player: west. monster: facing west. move.
@@ -263,6 +266,7 @@ public:
 			else if (playerX < x - 1 && direction != 4) //player: west. monster: !facing west. turn.
 			{
 				computerChangeDirection(monster, 4);
+				computerDetermineMove(monster);
 			}
 			else if (playerX > x + 1 && direction == 2) //player: east. monster: facing east. move.
 			{
@@ -271,26 +275,171 @@ public:
 			else if (playerX > x + 1 && direction != 2) //player: east. monster: !facing east. turn.
 			{
 				computerChangeDirection(monster, 2);
+				computerDetermineMove(monster);
 			}
+			//In range; turn or attack
+			//test-------------------------------------------------------------------------------------------
+			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
+			{
+				computerChangeDirection(monster, 1);
+				computerDetermineMove(monster);
+			}
+			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
+			{
+				computerChangeDirection(monster, 3);
+				computerDetermineMove(monster);
+			}
+			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
+			{
+				computerChangeDirection(monster, 4);
+				computerDetermineMove(monster);
+			}
+			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
+			{
+				computerChangeDirection(monster, 2);
+				computerDetermineMove(monster);
+			}
+			else if (playerY == y - 1 && playerX != x && direction == 1) //player to north but off x by 1
+			{
+				move(monster);
+			}
+			else if (playerY == y + 1 && playerX != x && direction == 3) //player to south but off x by 1
+			{
+				move(monster);
+			}
+			else if (playerX == x - 1 && playerY != y && direction == 4) //player to west but off y by 1
+			{
+				move(monster);
+			}
+			else if (playerX == x + 1 && playerY != y && direction == 2) //player to east but off y by 1
+			{
+				move(monster);
+			}
+			//test---------------------------------------------------------------------------------------
 			else
 			{
-				//LEFT OFF HERE 1/9/23
 				combat(monster);
 			}
 		}
 		else
 		{
-
+			//determine east west standing (get into melee range)
+			if (playerX < x - 1 && direction == 4)		//player: west. monster: facing west. move.
+			{
+				move(monster);
+			}
+			else if (playerX < x - 1 && direction != 4) //player: west. monster: !facing west. turn.
+			{
+				computerChangeDirection(monster, 4);
+				computerDetermineMove(monster);
+			}
+			else if (playerX > x + 1 && direction == 2) //player: east. monster: facing east. move.
+			{
+				move(monster);
+			}
+			else if (playerX > x + 1 && direction != 2) //player: east. monster: !facing east. turn.
+			{
+				computerChangeDirection(monster, 2);
+				computerDetermineMove(monster);
+			}
+			//determine north south standing (get into melee range)
+			else if (playerY < y - 1 && direction == 1)	//player: north. monster: facing north. move.
+			{
+				move(monster);
+			}
+			else if (playerY < y - 1 && direction != 1) //player: north. monster: facing !north. turn.
+			{
+				computerChangeDirection(monster, 1);
+				computerDetermineMove(monster);
+			}
+			else if (playerY > y + 1 && direction == 3) //player: south. monster: facing south. move.
+			{
+				move(monster);
+			}
+			else if (playerY > y + 1 && direction != 3) //player: south. monster: !facing south. turn.
+			{
+				computerChangeDirection(monster, 3);
+				computerDetermineMove(monster);
+			}
+			//In range; turn or attack
+			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
+			{
+				computerChangeDirection(monster, 1);
+				computerDetermineMove(monster);
+			}
+			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
+			{
+				computerChangeDirection(monster, 3);
+				computerDetermineMove(monster);
+			}
+			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
+			{	
+				computerChangeDirection(monster, 4);
+				computerDetermineMove(monster);
+			}
+			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
+			{
+				computerChangeDirection(monster, 2);
+				computerDetermineMove(monster);
+			}
+			//In range; turn or attack
+			//test-------------------------------------------------------------------------------------------
+			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
+			{
+				computerChangeDirection(monster, 4);
+				computerDetermineMove(monster);
+			}
+			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
+			{
+				computerChangeDirection(monster, 2);
+				computerDetermineMove(monster);
+			}
+			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
+			{
+				computerChangeDirection(monster, 1);
+				computerDetermineMove(monster);
+			}
+			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
+			{
+				computerChangeDirection(monster, 3);
+				computerDetermineMove(monster);
+			}
+			else if (playerX == x - 1 && playerY != y && direction == 4) //player to west but off y by 1
+			{
+				move(monster);
+			}
+			else if (playerX == x + 1 && playerY != y && direction == 2) //player to east but off y by 1
+			{
+				move(monster);
+			}
+			else if (playerY == y - 1 && playerX != x && direction == 1) //player to north but off x by 1
+			{
+				move(monster);
+			}
+			else if (playerY == y + 1 && playerX != x && direction == 3) //player to south but off x by 1
+			{
+				move(monster);
+			}
+			//test------------------------------------------------------------------------------------------
+			else
+			{
+				combat(monster);
+			}
 		}
 
 	}
 
 
 
-	Monster computerInitializeCharacter()
+	Monster computerInitializeCharacter(int left, int right, int override)
 	{
+		int type;
 		//randomly determine monster type
-		int type = generateRandomNumber(1, 12);
+		if (override)
+			type = override;
+		else
+
+			type = generateRandomNumber(left, right);
 		Monster m;
 		switch (type)
 		{
@@ -357,11 +506,36 @@ public:
 		m_monsters.clear();
 
 		//choose a random number of monsters for the room
-		int numMonsters = generateRandomNumber(1, 5);
+		int numMonsters = (m_board.m_isBossRoom) ?  5 : generateRandomNumber(1, 4);
+
 
 		//Fill the monster array
 		for (int i = 0; i < numMonsters; i++)
-			m_monsters.push_back(computerInitializeCharacter());
+		{
+			switch (i)
+			{
+			case 0:
+				//range
+				m_monsters.push_back(computerInitializeCharacter(1,1,1));
+				break;
+			case 1:
+				//behavior group 1
+				m_monsters.push_back(computerInitializeCharacter(2,5,0));
+				break;
+			case 2:
+				//range
+				m_monsters.push_back(computerInitializeCharacter(6,7,0));
+				break;
+			case 3:
+				//behavior group 2
+				m_monsters.push_back(computerInitializeCharacter(8,11,0));
+				break;
+			default:
+				//worm
+				m_monsters.push_back(computerInitializeCharacter(12, 12, 12));
+				break;
+			}
+		}
 
 		//Place the monsters in the room
 		initializeComputerPositions();
@@ -369,7 +543,7 @@ public:
 
 
 
-	void computerTakeTurn(Monster monster)
+	void computerTakeTurn(Monster& monster)
 	{
 		computerDetermineMove(monster);
 	}
@@ -679,16 +853,16 @@ public:
 		//Refresh the Board
 		m_board.refreshBoard();
 
-		//refresh monsters
-		for (Monster m : m_monsters)																		  
-		{																									  
-			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);					  
-		}																									  
-
 		//Move
 		e.move(m_board);
 		int ycoord = e.getLocation()[0];
 		int xcoord = e.getLocation()[1];
+
+		//refresh monsters
+		for (Monster& m : m_monsters)																		  
+		{																									  
+			m_board.markRoom(m.m_yCoord, m.m_xCoord, m.getSymbol(), m_board.m_currentRoom);					  
+		}																									  
 
 		//Determine if you stepped on a trap
 		resolveTraps(e);
@@ -1133,7 +1307,7 @@ public:
 	{
 		if (m_turn % 2 == 0)
 		{
-			for (Monster monster : m_monsters)
+			for (Monster& monster : m_monsters)
 			{
 				computerTakeTurn(monster);
 				checkForSlainMonsters();

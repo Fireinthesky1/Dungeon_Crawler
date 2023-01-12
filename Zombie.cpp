@@ -7,8 +7,8 @@ Zombie::Zombie()
 	m_maxHealth = 15;
 	m_currentHealth = m_maxHealth;
 	m_range = false;
-	m_doDamageMin = 2;
-	m_doDamageMax = 8;
+	m_doDamageMin = 1;
+	m_doDamageMax = 4;
 	m_name = "Zombie ";
 	m_type = "Zombie ";
 	m_xpValue = 150;

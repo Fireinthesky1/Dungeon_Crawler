@@ -16,6 +16,8 @@ public:
 	//constructor
 	Monster();
 
+
+
 	Monster(std::string type, int maxHealth, int yCoord, int xCoord, int doDamageMax, int doDamageMin, int direction, bool range, int armorClass);
 
 

@@ -108,7 +108,7 @@ bool Entity::isAlive()
 
 void Entity::changeDirection(int direction)
 {
-	m_direction = setVars(1, 4, direction);
+	this->m_direction = setVars(1, 4, direction);
 }
 
 
