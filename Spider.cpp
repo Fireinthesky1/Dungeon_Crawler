@@ -3,12 +3,12 @@
 
 Spider::Spider()
 {
-	m_armorClass = 10;
+	m_armorClass = 6;
 	m_maxHealth = 6;
 	m_currentHealth = m_maxHealth;
 	m_range = false;
 	m_doDamageMin = 3;
-	m_doDamageMax = 18;
+	m_doDamageMax = 6;
 	m_name = "Spider ";
 	m_type = "Spider ";
 	m_xpValue = 60;

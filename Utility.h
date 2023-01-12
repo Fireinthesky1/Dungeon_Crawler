@@ -140,7 +140,7 @@ inline void clearInputBuffer()
 
 inline int generateRandomNumber(int leftBound, int rightBound)
 {
-	return (rand() % rightBound) + leftBound;
+	return ((rand() % (rightBound - leftBound)) + leftBound);
 }
 
 

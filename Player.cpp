@@ -11,6 +11,7 @@ Player::Player()
 }
 
 
+
 Player::Player(std::string name, std::string weapon, std::string armor, int maxHealth, int yCoord, int xCoord, int baseDifficulty, int doDamageMax, int doDamageMin, int direction, bool range, int level, int xp, int gold, int armorClass)
 	: m_weapon("WOODEN "), m_armor("NONE "), m_class("PLAYER "),
 	m_level(1), m_xp(0), m_gold(0), m_inventory({ "                           ", "                           ", "                           ", "                           ", "                           " })

@@ -3,12 +3,12 @@
 
 Bugbear::Bugbear()
 {
-	m_armorClass = 12;
+	m_armorClass = 8;
 	m_maxHealth = 35;
 	m_currentHealth = m_maxHealth;
 	m_range = true;
-	m_doDamageMin = 4;
-	m_doDamageMax = 24;
+	m_doDamageMin = 1;
+	m_doDamageMax = 8;
 	m_name = "Bugbear";
 	m_type = "Bugbear";
 	m_xpValue = 350;

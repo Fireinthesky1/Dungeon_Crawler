@@ -28,11 +28,11 @@ public:
 	bool isAlive();
 	void changeDirection(int direction);
 	void hit(int damage);
+	void move(Board board);
 
 
 
 	//Virtual
 	virtual std::string getName();
-	virtual void move(Board board);
 	virtual std::vector<int> attack(Board board, int armorClass, bool range);
 };

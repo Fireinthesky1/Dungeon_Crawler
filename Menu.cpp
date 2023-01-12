@@ -117,15 +117,13 @@ void Menu::openInteractMenu()
 	m_currentMenu = 3;
 	std::string line1 = "|1:OPEN_DOOR                  |";
 	std::string line2 = "|2:OPEN_CHEST                 |";
-	std::string line3 = "|3:TALK                       |";
-	std::string line4 = "|4:INVESTIGATE                |";
-	std::string line5 = "|5:EXIT_SUBMENU               |";
+	std::string line3 = "|3:INVESTIGATE                |";
+	std::string line4 = "|4:EXIT_SUBMENU               |";
 
 	std::cout << line1 << std::endl;
 	std::cout << line2 << std::endl;
 	std::cout << line3 << std::endl;
 	std::cout << line4 << std::endl;
-	std::cout << line5 << std::endl;
 }
 
 
@@ -342,7 +340,7 @@ int Menu::directionMenuSolution(std::string classType)
 int Menu::interactMenuSolution(std::vector<std::string> &inventory, bool isOnValidChest, std::string classType)
 {
 	clearInputBuffer();
-	int input = getUserInputInt(1, 5);
+	int input = getUserInputInt(1, 4);
 
 	switch (input)
 	{
@@ -357,14 +355,10 @@ int Menu::interactMenuSolution(std::vector<std::string> &inventory, bool isOnVal
 		return chestMenuSolution(inventory, classType);
 		break;
 	case 3:
-		//Resolve Dialogue
-		return 9;
-		break;
-	case 4:
 		//Resolve investigate
 		return 10;
 		break;
-	case 5:
+	case 4:
 		//Jump back to main
 		openMainMenu(classType);
 		return 24;
