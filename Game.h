@@ -197,8 +197,6 @@ public:
 
 
 
-	//TESTING RANGED MONSTERS
-	//Monsters will stop at the kitty corner
 	void computerDetermineMove(Monster& monster)
 	{
 		//The anatomy of a dungeon room will be 2 ranged and 2 melee.
@@ -279,41 +277,81 @@ public:
 			}
 			//In range; turn or attack
 			//test-------------------------------------------------------------------------------------------
-			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
+			else if (playerY == y - 1 && playerX == x && direction == 1) //player to north x == x fire
 			{
-				computerChangeDirection(monster, 1);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
+			else if (playerY == y + 1 && playerX == x && direction == 3) //player to south x == x fire
 			{
-				computerChangeDirection(monster, 3);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
+			else if (playerX == x - 1 && playerY == y && direction == 4) //player to west y == y
 			{
-				computerChangeDirection(monster, 4);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
+			else if (playerX == x + 1 && playerY == y && direction == 2) //player to east y == y
 			{
-				computerChangeDirection(monster, 2);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerY == y - 1 && playerX != x && direction == 1) //player to north but off x by 1
+			else if (playerY == y - 1 && playerX != x) //player to north but off x by 1
 			{
-				move(monster);
+				if (playerX > x)
+				{
+					computerChangeDirection(monster, 2);
+					move(monster);
+					computerChangeDirection(monster, 1);
+				}
+				else if (playerX < x)
+				{
+					computerChangeDirection(monster, 4);
+					move(monster);
+					computerChangeDirection(monster, 1);
+				}
 			}
-			else if (playerY == y + 1 && playerX != x && direction == 3) //player to south but off x by 1
+			else if (playerY == y + 1 && playerX != x) //player to south but off x by 1
 			{
-				move(monster);
+				if (playerX > x)
+				{
+					computerChangeDirection(monster,2);
+					move(monster);
+					computerChangeDirection(monster, 3);
+				}
+				else if(playerX < x)
+				{
+					computerChangeDirection(monster, 4);
+					move(monster);
+					computerChangeDirection(monster, 3);
+				}
 			}
-			else if (playerX == x - 1 && playerY != y && direction == 4) //player to west but off y by 1
+			else if (playerX == x - 1 && playerY != y) //player to west but off y by 1
 			{
-				move(monster);
+				if (playerY > y)
+				{
+					computerChangeDirection(monster, 3);
+					move(monster);
+					computerChangeDirection(monster, 4);
+				}
+				else if (playerY < y)
+				{
+					computerChangeDirection(monster, 1);
+					move(monster);
+					computerChangeDirection(monster, 4);
+				}
 			}
-			else if (playerX == x + 1 && playerY != y && direction == 2) //player to east but off y by 1
+			else if (playerX == x + 1 && playerY != y) //player to east but off y by 1
 			{
-				move(monster);
+				if (playerY > y)
+				{
+					computerChangeDirection(monster, 3);
+					move(monster);
+					computerChangeDirection(monster, 2);
+				}
+				else if (playerY < y)
+				{
+					computerChangeDirection(monster, 1);
+					move(monster);
+					computerChangeDirection(monster, 2);
+				}
 			}
 			//test---------------------------------------------------------------------------------------
 			else
@@ -384,43 +422,83 @@ public:
 			}
 			//In range; turn or attack
 			//test-------------------------------------------------------------------------------------------
-			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
+			else if (playerX == x - 1 && playerY == y && direction == 4) //player to west y == y
 			{
-				computerChangeDirection(monster, 4);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
+			else if (playerX == x + 1 && playerY == y && direction == 2) //player to east y == y
 			{
-				computerChangeDirection(monster, 2);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
+			else if (playerY == y - 1 && playerX == x && direction == 1) //player to north x == x fire
 			{
-				computerChangeDirection(monster, 1);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
+			else if (playerY == y + 1 && playerX == x && direction == 3) //player to south x == x fire
 			{
-				computerChangeDirection(monster, 3);
-				computerDetermineMove(monster);
+				combat(monster);
 			}
-			else if (playerX == x - 1 && playerY != y && direction == 4) //player to west but off y by 1
+			else if (playerX == x - 1 && playerY != y) //player to west but off y by 1
 			{
-				move(monster);
+				if (playerY > y)
+				{
+					computerChangeDirection(monster, 3);
+					move(monster);
+					computerChangeDirection(monster, 4);
+				}
+				else if (playerY < y)
+				{
+					computerChangeDirection(monster, 1);
+					move(monster);
+					computerChangeDirection(monster, 4);
+				}
 			}
-			else if (playerX == x + 1 && playerY != y && direction == 2) //player to east but off y by 1
+			else if (playerX == x + 1 && playerY != y) //player to east but off y by 1
 			{
-				move(monster);
+				if (playerY > y)
+				{
+					computerChangeDirection(monster, 3);
+					move(monster);
+					computerChangeDirection(monster, 2);
+				}
+				else if (playerY < y)
+				{
+					computerChangeDirection(monster, 1);
+					move(monster);
+					computerChangeDirection(monster, 2);
+				}
 			}
-			else if (playerY == y - 1 && playerX != x && direction == 1) //player to north but off x by 1
+			else if (playerY == y - 1 && playerX != x) //player to north but off x by 1
 			{
-				move(monster);
+				if (playerX > x)
+				{
+					computerChangeDirection(monster, 2);
+					move(monster);
+					computerChangeDirection(monster, 1);
+				}
+				else if (playerX < x)
+				{
+					computerChangeDirection(monster, 4);
+					move(monster);
+					computerChangeDirection(monster, 1);
+				}
 			}
-			else if (playerY == y + 1 && playerX != x && direction == 3) //player to south but off x by 1
+			else if (playerY == y + 1 && playerX != x) //player to south but off x by 1
 			{
-				move(monster);
+				if (playerX > x)
+				{
+					computerChangeDirection(monster, 2);
+					move(monster);
+					computerChangeDirection(monster, 3);
+				}
+				else if (playerX < x)
+				{
+					computerChangeDirection(monster, 4);
+					move(monster);
+					computerChangeDirection(monster, 3);
+				}
 			}
-			//test------------------------------------------------------------------------------------------
+			//test---------------------------------------------------------------------------------------
 			else
 			{
 				combat(monster);
