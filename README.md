@@ -17,20 +17,17 @@ First person text based video game in which the goal is to reach the fourth floo
 
 ## In Progress
 
--Testing monster A.I. in it's own branch called "test"
+-Implementing Boss class
 
 ## Known Bugs
--Enemies won't change directions or move
+
 -Chose not to play again and was prompted 3 more times before exiting
 -5 orcs were displayed on the board but only four orc stats were displayed
-
+-Can get any item from chest by choosing not to take and opening again
 
 ## To do
 
 -Get monster actions displayed to the user.
--Create Boss class
--Game is in very buggy state (computer determine move the culptrit)
--A.I. hits infinite loop when oriented diagonally adjacent to the player.
 
 ## Contributing
 
