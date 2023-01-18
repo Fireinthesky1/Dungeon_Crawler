@@ -490,7 +490,7 @@ int Menu::chestMenuSolution(std::vector<std::string> &inventory, std::string cla
 	case 2:
 		//Jump back to main
 		openMainMenu(classType);
-		return 24;
+		return 9;
 		break;
 	default:
 		abort();

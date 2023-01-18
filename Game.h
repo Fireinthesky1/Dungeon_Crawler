@@ -1086,7 +1086,9 @@ public:
 			removeChestFromBoard();
 			break;
 		case 9:
-			//used to have dialogue. Now empty.
+			//The player did not take the item from the chest
+			removeChestFromBoard();
+			playerDetermineMove();
 			break;
 		case 10:
 			resolveInvestigate();
