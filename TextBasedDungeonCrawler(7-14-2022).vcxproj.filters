@@ -93,6 +93,9 @@
     <ClCompile Include="Rat.cpp">
       <Filter>Source Files\Monster Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\Monster Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="Priest.h">
       <Filter>Header Files\Entity Hierarchy\Player children</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files\Entity Hierarchy\Monster children</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

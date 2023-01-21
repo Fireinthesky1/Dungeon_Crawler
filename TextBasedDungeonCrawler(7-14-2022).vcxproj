@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Bat.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bugbear.cpp" />
     <ClCompile Include="Cultist.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Bat.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Bugbear.h" />
     <ClInclude Include="Cultist.h" />
     <ClInclude Include="Entity.h" />
