@@ -19,6 +19,8 @@ First person text based video game in which the goal is to reach the fourth floo
 
 ## Known Bugs
 
+-"Play_again" menu will continue to prompt the player regardless of valid input.
+
 ## To do
 
 -Tweak damage and gameplay to taste
