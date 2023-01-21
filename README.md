@@ -21,7 +21,7 @@ First person text based video game in which the goal is to reach the fourth floo
 
 ## To do
 
--Make it so there are only two hands of vecna and two eyes of vecna.
+-Tweak damage and gameplay to taste
 
 ## Contributing
 
