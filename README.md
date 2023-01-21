@@ -17,17 +17,11 @@ First person text based video game in which the goal is to reach the fourth floo
 
 ## In Progress
 
--Implementing Boss class
-
 ## Known Bugs
-
--Chose not to play again and was prompted 3 more times before exiting
--5 orcs were displayed on the board but only four orc stats were displayed
--Can get any item from chest by choosing not to take and opening again
 
 ## To do
 
--Get monster actions displayed to the user.
+-Make it so there are only two hands of vecna and two eyes of vecna.
 
 ## Contributing
 
