@@ -21,13 +21,6 @@
 
 //BUGS
 /*
-*	-Enemies can now attack and it is brutal (fix damage)
-* 
-*	-Need to thoroughly test the generate random number again (utility)
-* 
-*	-Used hand of vecna. Reduced monster to zero hp. Monster didn't come off battlefield till next action was taken (1/2/23)
-* 
-*	-When a chest is on a trap and you grab the chest the trap is now hidden
 */
 
 

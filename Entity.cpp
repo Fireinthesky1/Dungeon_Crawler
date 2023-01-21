@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 
-Entity::Entity()
+Entity::Entity()//test
 	: m_name("PLAYER"), m_yCoord(0), m_xCoord(0), m_direction(1), m_doDamageMin(1), m_doDamageMax(5), m_maxHealth(10), m_currentHealth(10), m_armorClass(10), m_symbol('E'), m_range(false)
 {
 }
