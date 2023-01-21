@@ -1,4 +1,3 @@
-//Cultist will have a lot of damage, 12 hp and be worth 1000 xp
 #include "Cultist.h"
 
 Cultist::Cultist()

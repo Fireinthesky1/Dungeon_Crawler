@@ -4,12 +4,12 @@
 //Need to work out how to teleport these guys around the room
 PurpleWorm::PurpleWorm()
 {
-	m_armorClass = 12;
-	m_maxHealth = 100;
+	m_armorClass = 6;
+	m_maxHealth = 50;
 	m_currentHealth = m_maxHealth;
 	m_range = true;
-	m_doDamageMin = 15;
-	m_doDamageMax = 50;
+	m_doDamageMin = 2;
+	m_doDamageMax = 8;
 	m_name = "Worm   ";
 	m_type = "Worm   ";
 	m_xpValue = 1000;

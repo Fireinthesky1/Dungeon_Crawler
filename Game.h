@@ -32,6 +32,7 @@
 #include "Bat.h"
 #include "Mimic.h"
 #include "PurpleWorm.h"
+#include "Boss.h"
 
 #include <windows.h>
 
@@ -71,6 +72,7 @@ public:
 		{
 			if (m_monsters[i].m_currentHealth <= 0)
 			{
+				if (m_monsters[i].m_type == "Vecna  ") { m_vecnaIsDead = true; }
 				//give xp, remove the body, kill the monster, refresh the board
 				(*player).m_xp += m_monsters[i].m_xpValue;
 				m_board.markRoom(m_monsters[i].m_yCoord, m_monsters[i].m_xCoord,' ',m_board.m_currentRoom);
@@ -125,7 +127,7 @@ public:
 		else if (vecnaIsDead())
 		{
 			clearScreen(ScreenBuffer);
-			std::cout << (*player).getName() << " " << "has destroyed Vecna. Peace is restored to the multiverse!" << "\n" << std::endl;
+			std::cout << (*player).getName() << "\n" << "You have destroyed Vecna.\nThe dread domains have been dissolved.\nPeace is restored to the multiverse!" << "\n" << std::endl;
 			if (playAgain())
 			{
 				playGame();
@@ -215,10 +217,21 @@ public:
 		10: Bat			(range == false) (behavior 2)
 		11: Mimic		(range == false) (behavior 2)
 		12: Purpleworm	(range == true)
+		13: Boss		(range == true)
 		*/
 		
 		//if monster has 0 or less HP return
 		if (monster.m_currentHealth <= 0) { return; }
+
+		//If boss spawn monsters every four rounds
+		if (monster.m_monsterType == 13 && m_turn % 10 == 0)
+		{
+			if (m_monsters.size() < 5)
+			{
+				m_monsters.push_back(computerInitializeCharacter(7, 7, 7));
+				return;
+			}
+		}
 
 		//ranged types won't move, just shoot every round
 		if (monster.m_range)
@@ -399,27 +412,7 @@ public:
 				computerChangeDirection(monster, 3);
 				computerDetermineMove(monster);
 			}
-			//In range; turn or attack
-			else if (playerY < y && direction != 1)		//player: north. monster: !facing north. turn.
-			{
-				computerChangeDirection(monster, 1);
-				computerDetermineMove(monster);
-			}
-			else if (playerY > y && direction != 3)		//player: south. monster: !facing south. turn.
-			{
-				computerChangeDirection(monster, 3);
-				computerDetermineMove(monster);
-			}
-			else if (playerX < x && direction != 4)		//player: west. monster: !facing west. turn.
-			{	
-				computerChangeDirection(monster, 4);
-				computerDetermineMove(monster);
-			}
-			else if (playerX > x && direction != 2)		//player: east. monster: !facing east. turn.
-			{
-				computerChangeDirection(monster, 2);
-				computerDetermineMove(monster);
-			}
+
 			//In range; turn or attack
 			//test-------------------------------------------------------------------------------------------
 			else if (playerX == x - 1 && playerY == y && direction == 4) //player to west y == y
@@ -557,6 +550,9 @@ public:
 		case 12:
 			m = PurpleWorm();
 			break;
+		case 13:
+			m = Boss(m_board.getCurrentDungeonLevel());
+			break;
 		default:
 			clearScreen(ScreenBuffer);
 			std::cout << "Failed to initialize Monster" << std::endl;
@@ -586,6 +582,8 @@ public:
 		//choose a random number of monsters for the room
 		int numMonsters = (m_board.m_isBossRoom) ?  5 : generateRandomNumber(1, 4);
 
+		//Insert boss
+		if (m_board.m_isBossRoom) { m_monsters.push_back(computerInitializeCharacter(13, 13, 13)); }
 
 		//Fill the monster array
 		for (int i = 0; i < numMonsters; i++)
@@ -925,6 +923,7 @@ public:
 	
 	void move(Entity& e)
 	{
+		if (e.m_currentHealth <= 0) { return; }
 		//Remove old mark
 		m_board.markRoom(e.getLocation()[0], e.getLocation()[1], ' ', m_board.m_currentRoom);
 		
@@ -946,6 +945,7 @@ public:
 		resolveTraps(e);
 		
 		//Mark the room with your new location
+		assert(e.getName().size() > 0);
 		m_board.markRoom(ycoord, xcoord, e.getName().at(0) , m_board.m_currentRoom);
 	}
 
@@ -1063,6 +1063,7 @@ public:
 				if (f->m_currentNumAttacks > 0)
 				{
 					combat((*player));
+					checkForSlainMonsters();
 					f->m_currentNumAttacks--;
 					if (f->m_currentNumAttacks == 0)
 						break;
@@ -1073,6 +1074,7 @@ public:
 			else
 			{
 				combat((*player));
+				checkForSlainMonsters();
 			}
 			break;
 		case 7:
@@ -1498,6 +1500,11 @@ public:
 		else if (!item.compare("EYE_OF_VECNA               "))
 		{
 			//Need to figure out something that this can do
+			for (Monster& m : m_monsters)
+			{
+				if (m.m_monsterType == 13)
+					m.m_currentHealth -= 50;
+			}
 		}
 		else if (!item.compare("POTION_OF_HEALTH           "))
 		{
