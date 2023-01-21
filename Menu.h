@@ -67,7 +67,8 @@ public:
 		"It is very hot in this room",
 		"I feel a tap on the shoulder",
 	};
-	int m_currentMenu;
+	int m_currentMenu, m_handsLeft, m_eyesLeft;
+	bool m_handsGone, m_eyesGone;
 	HANDLE ScreenBuffer = GetStdHandle(STD_OUTPUT_HANDLE);
 
 

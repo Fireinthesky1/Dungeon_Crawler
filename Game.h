@@ -884,6 +884,10 @@ public:
 		m_gameOver = false;
 		//Bring vecna back
 		m_vecnaIsDead = false;
+		m_menu.m_handsLeft = 2;
+		m_menu.m_handsGone = false;
+		m_menu.m_eyesLeft = 2;
+		m_menu.m_eyesGone = false;
 		//Set dungeon Level to 1
 		m_board.setCurrentDungeoneLevel(1);
 		//reset chance to generateBossRoom

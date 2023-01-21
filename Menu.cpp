@@ -168,6 +168,30 @@ std::string Menu::openChestMenu()
 {
 	m_currentMenu = 6;
 	std::string item = m_chestContents[rand() % m_chestContents.size()];
+
+	if (item == "HAND_OF_VECNA              ")
+		--m_handsLeft;
+	else if (item == "EYE_OF_VECNA               ")
+		--m_eyesLeft;
+	if (m_handsLeft == 0 && !m_handsGone)
+	{
+		m_chestContents.erase(m_chestContents.begin() + 0);
+		m_handsGone = true;
+		std::string item = m_chestContents[rand() % m_chestContents.size()];
+	}
+	if (m_eyesLeft == 0 && !m_handsGone && !m_eyesGone)
+	{
+		m_chestContents.erase(m_chestContents.begin() + 1);
+		m_eyesGone = true;
+		std::string item = m_chestContents[rand() % m_chestContents.size()];
+	}
+	else if(m_eyesLeft == 0&& !m_eyesGone)
+	{
+		m_chestContents.erase(m_chestContents.begin() + 0);
+		m_eyesGone = true;
+		std::string item = m_chestContents[rand() % m_chestContents.size()];
+	}
+
 	std::string line1 = "|" + item + "  |";
 	std::string line2 = "|1:TAKE                       |";
 	std::string line3 = "|2:EXIT_SUBMENU               |";
